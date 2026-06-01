@@ -10,13 +10,17 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: '**.supabase.co',
             },
+            {
+                protocol: 'https',
+                hostname: 'png.pngtree.com',
+            },
         ],
     },
-    
+
     eslint: {
         ignoreDuringBuilds: true,
     },
-    
+
     typescript: {
         ignoreBuildErrors: true,
     },

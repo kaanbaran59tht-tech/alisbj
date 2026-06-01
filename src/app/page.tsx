@@ -54,7 +54,7 @@ export default function HomePage() {
                     {/* İçerik */}
                     <div className="relative z-20 text-center space-y-8 px-6 max-w-4xl mx-auto">
                         <p className="text-xs font-sans font-semibold uppercase tracking-widest text-gold animate-fade-up">
-                            ✨ TOPTAN TAKILAR — 6'LI PAKET SİSTEMİ
+                            ✨ TOPTAN TAKILAR — 6 LI PAKET SİSTEMİ
                         </p>
 
                         <h1 className="font-display text-5xl md:text-7xl text-white leading-tight animate-fade-up">
