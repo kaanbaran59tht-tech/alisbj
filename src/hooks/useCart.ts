@@ -5,118 +5,72 @@ interface CartStore {
   items: CartItem[];
   isOpen: boolean;
 
-  // Aksiyonlar
   addPackage: (item: Omit<CartItem, 'id'>) => void;
-  updatePackageQuantity: (productId: string, quantity: number) => void;
-  removeItem: (productId: string) => void;
+  updatePackageQuantity: (itemId: string, quantity: number) => void;
+  removeItem: (itemId: string) => void;
   clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
 
-  // Hesaplayıcılar
-  getTotal: () => number; // Toplam TL
-  getTotalPackages: () => number; // Toplam paket sayısı
-  getTotalUnits: () => number; // Toplam adet (paket x 6)
+  getTotal: () => number;
+  getTotalPackages: () => number;
+  getTotalUnits: () => number;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
   isOpen: false,
 
-  /**
-   * 1 paket ekle (arka planda 6 adet)
-   * Aynı ürün + aynı varyant varsa, paket sayısını artır
-   */
   addPackage: (newItem: Omit<CartItem, 'id'>) =>
     set((state) => {
-      // Aynı ürün ve varyant kontrolü
-      const existing = state.items.find(
-        (i) =>
-          i.productId === newItem.productId &&
-          i.selectedVariant?.id === newItem.selectedVariant?.id
-      );
+      const id = `${newItem.productId}-${newItem.selectedVariant?.id || 'default'}`;
+
+      const existing = state.items.find((i) => i.id === id);
 
       if (existing) {
-        // Var olan üründe paket sayısını artır
+        // Seçilen paket sayısını mevcut üstüne ekle
         return {
           items: state.items.map((i) =>
-            i.productId === newItem.productId &&
-            i.selectedVariant?.id === newItem.selectedVariant?.id
-              ? { ...i, quantity: i.quantity + 1 }
+            i.id === id
+              ? { ...i, quantity: i.quantity + newItem.quantity }
               : i
           ),
+          isOpen: true,
         };
       }
 
-      // Yeni ürün ekle
-      const id = `${newItem.productId}-${newItem.selectedVariant?.id || 'default'}`;
       return {
         items: [{ ...newItem, id }, ...state.items],
         isOpen: true,
       };
     }),
 
-  /**
-   * Ürünün paket sayısını güncelle
-   * 0 veya negatif = sil
-   */
-  updatePackageQuantity: (productId: string, quantity: number) =>
+  // itemId artık CartItem.id — varyantsız aynı ürün + farklı varyant ayrı satır
+  updatePackageQuantity: (itemId: string, quantity: number) =>
     set((state) => ({
       items:
         quantity <= 0
-          ? state.items.filter((i) => i.productId !== productId)
+          ? state.items.filter((i) => i.id !== itemId)
           : state.items.map((i) =>
-              i.productId === productId ? { ...i, quantity } : i
+              i.id === itemId ? { ...i, quantity } : i
             ),
     })),
 
-  /**
-   * Ürünü sepetten sil
-   */
-  removeItem: (productId: string) =>
+  removeItem: (itemId: string) =>
     set((state) => ({
-      items: state.items.filter((i) => i.productId !== productId),
+      items: state.items.filter((i) => i.id !== itemId),
     })),
 
-  /**
-   * Sepeti tamamen boşalt
-   */
   clearCart: () => set({ items: [], isOpen: false }),
-
-  /**
-   * Sepeti aç
-   */
-  openCart: () => set({ isOpen: true }),
-
-  /**
-   * Sepeti kapat
-   */
+  openCart:  () => set({ isOpen: true }),
   closeCart: () => set({ isOpen: false }),
 
-  /**
-   * Toplam TL hesapla
-   */
-  getTotal: () => {
-    const items = get().items;
-    return items.reduce(
-      (sum, item) => sum + item.packagePrice * item.quantity,
-      0
-    );
-  },
+  getTotal: () =>
+    get().items.reduce((sum, i) => sum + i.packagePrice * i.quantity, 0),
 
-  /**
-   * Toplam paket sayısı
-   */
-  getTotalPackages: () => {
-    const items = get().items;
-    return items.reduce((sum, item) => sum + item.quantity, 0);
-  },
+  getTotalPackages: () =>
+    get().items.reduce((sum, i) => sum + i.quantity, 0),
 
-  /**
-   * Toplam adet (paket x 6)
-   */
-  getTotalUnits: () => {
-    const items = get().items;
-    return items.reduce((sum, item) => sum + item.quantity * 6, 0);
-  },
+  getTotalUnits: () =>
+    get().items.reduce((sum, i) => sum + i.quantity * 6, 0),
 }));
