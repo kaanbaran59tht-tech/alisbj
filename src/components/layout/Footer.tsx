@@ -27,15 +27,7 @@ export function Footer() {
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-icon hover:bg-gold/20 text-ivory-300 hover:text-gold transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
+             
               <a
                 href="mailto:info@allure.com"
                 className="btn-icon hover:bg-gold/20 text-ivory-300 hover:text-gold transition-colors"
@@ -48,7 +40,7 @@ export function Footer() {
 
           {/* Hızlı Linkler */}
           <div>
-            <h4 className="font-sans font-600 text-sm uppercase tracking-widest text-ivory-200 mb-6">
+            <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-ivory-200 mb-6">
               Hızlı Linkler
             </h4>
             <ul className="space-y-3">
@@ -68,76 +60,24 @@ export function Footer() {
                   Hakkımızda
                 </a>
               </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="font-sans font-300 text-sm text-warm-gray-400 hover:text-gold transition-colors"
-                >
-                  İletişim
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/admin/login"
-                  className="font-sans font-300 text-sm text-warm-gray-400 hover:text-gold transition-colors"
-                >
-                  Admin Panel
-                </a>
-              </li>
+              
+
             </ul>
           </div>
 
           {/* Müşteri Hizmetleri */}
-          <div>
-            <h4 className="font-sans font-600 text-sm uppercase tracking-widest text-ivory-200 mb-6">
-              Hizmetler
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="#faq"
-                  className="font-sans font-300 text-sm text-warm-gray-400 hover:text-gold transition-colors"
-                >
-                  Sıkça Sorulan Sorular
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#shipping"
-                  className="font-sans font-300 text-sm text-warm-gray-400 hover:text-gold transition-colors"
-                >
-                  Kargo Bilgileri
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#privacy"
-                  className="font-sans font-300 text-sm text-warm-gray-400 hover:text-gold transition-colors"
-                >
-                  Gizlilik Politikası
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#terms"
-                  className="font-sans font-300 text-sm text-warm-gray-400 hover:text-gold transition-colors"
-                >
-                  Kullanım Koşulları
-                </a>
-              </li>
-            </ul>
-          </div>
+         
 
           {/* İletişim */}
           <div>
-            <h4 className="font-sans font-600 text-sm uppercase tracking-widest text-ivory-200 mb-6">
+            <h4 className="font-sans font-semibold text-sm uppercase tracking-widest text-ivory-200 mb-6">
               İletişim
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                 <span className="font-sans font-300 text-sm text-warm-gray-400">
-                  İstanbul, Türkiye
+                                  İstanbul, Türkiye Bağcılar, 34200
                 </span>
               </li>
               <li className="flex items-start gap-3">

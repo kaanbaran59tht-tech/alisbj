@@ -47,7 +47,7 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
                     'hidden md:flex items-center gap-2 px-4 py-2 rounded-lg',
-                    'font-sans text-sm font-500 uppercase tracking-wider',
+                    'font-sans text-sm font-medium uppercase tracking-wider',
                     'transition-colors duration-300',
                     selectedCategory
                         ? 'bg-gold/20 text-gold border border-gold/30'
@@ -86,7 +86,7 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
                                 onClick={() => handleSelect(category.id)}
                                 className={cn(
                                     'px-3 py-2 rounded-lg text-left text-sm',
-                                    'font-sans font-500 transition-colors duration-200',
+                                    'font-sans font-medium transition-colors duration-200',
                                     selectedCategory === category.id
                                         ? 'bg-gold text-charcoal-800'
                                         : 'hover:bg-cream-100 text-charcoal-700'
@@ -103,7 +103,7 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
                         <div className="border-t border-warm-gray-200 p-3">
                             <button
                                 onClick={() => handleSelect(selectedCategory)}
-                                className="w-full px-3 py-2 rounded-lg bg-cream-100 hover:bg-cream-200 text-charcoal-700 text-sm font-sans font-500 transition-colors"
+                                className="w-full px-3 py-2 rounded-lg bg-cream-100 hover:bg-cream-200 text-charcoal-700 text-sm font-sans font-medium transition-colors"
                             >
                                 Filtreyi Temizle
                             </button>

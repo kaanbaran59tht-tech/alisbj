@@ -203,3 +203,43 @@ img, picture {
 }
 
 /* ───────────────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────────────────────────────── */
+/* PRODUCT MODAL VE PREMIUM KART EKLEMELERİ (BIJOU UPDATE) */
+/* ───────────────────────────────────────────────────────────────────── */
+
+/* İnce lüks gölgeler */
+.shadow-3xs {
+    box-shadow: 0 1px 2px rgba(22, 22, 22, 0.03);
+}
+
+.shadow-2xs {
+    box-shadow: 0 2px 6px rgba(22, 22, 22, 0.04);
+}
+
+/* Modalın mobilde ve masaüstünde akıcı açılması için transform düzeltmeleri */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.97) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Sekmeler arası geçişlerde içeriklerin pürüzsüz belirmesi */
+.animate-fade-up {
+    animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Görsel zoom efektinin hızı ve lüks akıcılığı */
+.group:hover .group-hover\:scale-103 {
+    transform: scale(1.03);
+}
+
+/* Mobil cihazlarda modal açıkken arkada kalan sayfanın kaymasını engelleme uyumu */
+body[style*="position: fixed"] {
+    scrollbar-gutter: stable;
+}

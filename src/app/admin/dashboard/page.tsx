@@ -424,7 +424,7 @@ export default function AdminDashboardPage() {
                                     type="button"
                                     onClick={() => handleModeChange('url')}
                                     className={cn(
-                                        'flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-sans font-600 uppercase tracking-wider transition-colors',
+                                        'flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-sans font-semibold uppercase tracking-wider transition-colors',
                                         imgMode === 'url' ? 'bg-gold text-charcoal-800' : 'bg-ivory-300 text-warm-gray-600 hover:bg-cream-100'
                                     )}
                                 >
@@ -435,7 +435,7 @@ export default function AdminDashboardPage() {
                                     type="button"
                                     onClick={() => handleModeChange('upload')}
                                     className={cn(
-                                        'flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-sans font-600 uppercase tracking-wider transition-colors border-l border-warm-gray-200',
+                                        'flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-sans font-semibold uppercase tracking-wider transition-colors border-l border-warm-gray-200',
                                         imgMode === 'upload' ? 'bg-gold text-charcoal-800' : 'bg-ivory-300 text-warm-gray-600 hover:bg-cream-100'
                                     )}
                                 >
@@ -473,7 +473,7 @@ export default function AdminDashboardPage() {
                                             )}
                                         >
                                             <Upload className="w-8 h-8 text-warm-gray-400 mb-2" />
-                                            <p className="font-sans font-500 text-sm text-charcoal-700">Tıkla veya sürükle bırak</p>
+                                            <p className="font-sans font-medium text-sm text-charcoal-700">Tıkla veya sürükle bırak</p>
                                             <p className="font-sans text-2xs text-warm-gray-500 mt-1">JPG, PNG, WEBP, HEIC — Maks 20MB</p>
                                             <input
                                                 ref={fileInputRef}
@@ -490,7 +490,7 @@ export default function AdminDashboardPage() {
                                                 <img src={uploadPreview} alt="Önizleme" className="w-20 h-20 object-cover rounded-lg border border-warm-gray-200 flex-shrink-0" />
                                             )}
                                             <div className="flex-1 min-w-0">
-                                                <p className="font-sans font-600 text-sm text-charcoal-800 truncate">{uploadFile.name}</p>
+                                                <p className="font-sans font-semibold text-sm text-charcoal-800 truncate">{uploadFile.name}</p>
                                                 <p className="font-sans text-2xs text-warm-gray-500 mt-0.5">{(uploadFile.size / 1024).toFixed(0)} KB · WebP ✓</p>
                                                 <button
                                                     type="button"
@@ -567,12 +567,12 @@ export default function AdminDashboardPage() {
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b border-warm-gray-200 text-left">
-                                        <th className="px-4 py-3 font-sans font-600 text-warm-gray-600 min-w-[72px]">Görsel</th>
-                                        <th className="px-4 py-3 font-sans font-600 text-warm-gray-600">Ürün Adı</th>
-                                        <th className="px-4 py-3 font-sans font-600 text-warm-gray-600">Kategori</th>
-                                        <th className="px-4 py-3 font-sans font-600 text-warm-gray-600 whitespace-nowrap">Paket Fiyatı</th>
-                                        <th className="px-4 py-3 font-sans font-600 text-warm-gray-600 whitespace-nowrap">Adet Fiyatı</th>
-                                        <th className="px-4 py-3 font-sans font-600 text-warm-gray-600">Tarih</th>
+                                        <th className="px-4 py-3 font-sans font-semibold text-warm-gray-600 min-w-[72px]">Görsel</th>
+                                        <th className="px-4 py-3 font-sans font-semibold text-warm-gray-600">Ürün Adı</th>
+                                        <th className="px-4 py-3 font-sans font-semibold text-warm-gray-600">Kategori</th>
+                                        <th className="px-4 py-3 font-sans font-semibold text-warm-gray-600 whitespace-nowrap">Paket Fiyatı</th>
+                                        <th className="px-4 py-3 font-sans font-semibold text-warm-gray-600 whitespace-nowrap">Adet Fiyatı</th>
+                                        <th className="px-4 py-3 font-sans font-semibold text-warm-gray-600">Tarih</th>
                                         <th className="px-4 py-3"></th>
                                     </tr>
                                 </thead>
@@ -595,14 +595,14 @@ export default function AdminDashboardPage() {
                                             </td>
 
                                             <td className="px-4 py-4 max-w-xs">
-                                                <p className="font-sans font-600 text-charcoal-800 truncate">{product.title}</p>
+                                                <p className="font-sans font-semibold text-charcoal-800 truncate">{product.title}</p>
                                                 {product.description && (
                                                     <p className="text-2xs text-warm-gray-400 mt-0.5 truncate max-w-[180px]">{product.description}</p>
                                                 )}
                                             </td>
 
                                             <td className="px-4 py-4">
-                                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-gold/10 text-2xs font-sans font-600 text-gold whitespace-nowrap">
+                                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-gold/10 text-2xs font-sans font-semibold text-gold whitespace-nowrap">
                                                     {getCategoryIcon(product.category_id)} {getCategoryName(product.category_id)}
                                                 </span>
                                             </td>
@@ -613,7 +613,7 @@ export default function AdminDashboardPage() {
                                             </td>
 
                                             <td className="px-4 py-4">
-                                                <span className="font-display font-500 text-gold text-base">₺{(product.price / 6).toFixed(2)}</span>
+                                                <span className="font-display font-medium text-gold text-base">₺{(product.price / 6).toFixed(2)}</span>
                                             </td>
 
                                             <td className="px-4 py-4 text-2xs text-warm-gray-400 font-sans whitespace-nowrap">

@@ -77,8 +77,8 @@ function ConfirmModal({
                         {items.map((item) => (
                             <div key={item.id} className="pb-3 border-b border-warm-gray-200 last:border-0 last:pb-0">
                                 <div className="flex justify-between items-start gap-2">
-                                    <span className="font-sans font-600 text-sm text-charcoal-800 leading-snug">{item.title}</span>
-                                    <span className="font-sans font-600 text-sm text-gold whitespace-nowrap">
+                                    <span className="font-sans font-semibold text-sm text-charcoal-800 leading-snug">{item.title}</span>
+                                    <span className="font-sans font-semibold text-sm text-gold whitespace-nowrap">
                                         ₺{(item.packagePrice * item.quantity).toFixed(2)}
                                     </span>
                                 </div>
@@ -90,7 +90,7 @@ function ConfirmModal({
                                 </p>
                             </div>
                         ))}
-                        <div className="flex justify-between items-center pt-2 font-sans font-600">
+                        <div className="flex justify-between items-center pt-2 font-sans font-semibold">
                             <span className="text-charcoal-800">Toplam</span>
                             <span className="text-xl font-display text-gold">₺{total.toFixed(2)}</span>
                         </div>
@@ -99,10 +99,10 @@ function ConfirmModal({
 
                 {/* Footer */}
                 <div className="px-5 py-4 flex gap-3 border-t border-warm-gray-200">
-                    <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-warm-gray-300 font-sans font-600 text-sm text-charcoal-700 hover:bg-warm-gray-50 active:bg-warm-gray-100 transition-colors">
+                    <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-warm-gray-300 font-sans font-semibold text-sm text-charcoal-700 hover:bg-warm-gray-50 active:bg-warm-gray-100 transition-colors">
                         Kapat
                     </button>
-                    <button onClick={copyDetails} className="flex-1 py-3 rounded-xl bg-gold hover:bg-gold-light active:bg-gold-dark font-sans font-600 text-sm text-charcoal-800 transition-colors">
+                    <button onClick={copyDetails} className="flex-1 py-3 rounded-xl bg-gold hover:bg-gold-light active:bg-gold-dark font-sans font-semibold text-sm text-charcoal-800 transition-colors">
                         📋 Kopyala
                     </button>
                 </div>
@@ -190,7 +190,7 @@ export function CartDrawer() {
                         <ShoppingBag className="w-5 h-5 text-gold" />
                         <h2 className="font-display text-2xl text-charcoal-800">Sepet</h2>
                         {items.length > 0 && (
-                            <span className="bg-gold text-charcoal-800 text-2xs font-sans font-700 px-2 py-0.5 rounded-full">
+                            <span className="bg-gold text-charcoal-800 text-2xs font-sans font-bold px-2 py-0.5 rounded-full">
                                 {totalUnits} adet
                             </span>
                         )}
@@ -217,7 +217,7 @@ export function CartDrawer() {
                             </p>
                             <button
                                 onClick={closeCart}
-                                className="mt-2 py-3 px-6 rounded-xl bg-gold hover:bg-gold-light font-sans font-600 text-sm text-charcoal-800 transition-colors"
+                                className="mt-2 py-3 px-6 rounded-xl bg-gold hover:bg-gold-light font-sans font-semibold text-sm text-charcoal-800 transition-colors"
                             >
                                 Alışverişe Devam
                             </button>
@@ -252,7 +252,7 @@ export function CartDrawer() {
                                         {/* Bilgi */}
                                         <div className="flex-1 min-w-0 flex flex-col gap-1">
                                             <div className="flex items-start justify-between gap-2">
-                                                <p className="font-sans font-600 text-sm text-charcoal-800 leading-snug line-clamp-2 flex-1">
+                                                <p className="font-sans font-semibold text-sm text-charcoal-800 leading-snug line-clamp-2 flex-1">
                                                     {item.title}
                                                 </p>
                                                 <button
@@ -286,7 +286,7 @@ export function CartDrawer() {
                                                         <Minus className="w-3.5 h-3.5 text-charcoal-600" />
                                                     </button>
                                                     <div className="px-3 flex flex-col items-center min-w-[52px]">
-                                                        <span className="font-sans font-700 text-sm text-charcoal-800 leading-none">
+                                                        <span className="font-sans font-bold text-sm text-charcoal-800 leading-none">
                                                             {item.quantity}
                                                         </span>
                                                         <span className="text-2xs text-warm-gray-500 font-sans leading-none mt-0.5">
@@ -302,7 +302,7 @@ export function CartDrawer() {
                                                     </button>
                                                 </div>
 
-                                                <span className="font-display font-500 text-base text-gold">
+                                                <span className="font-display font-medium text-base text-gold">
                                                     ₺{lineTotal.toFixed(2)}
                                                 </span>
                                             </div>
@@ -325,7 +325,7 @@ export function CartDrawer() {
                                 <span>{totalUnits} Adet</span>
                             </div>
                             <div className="flex justify-between items-baseline pt-1 border-t border-warm-gray-200">
-                                <span className="font-600 text-charcoal-800">Toplam</span>
+                                <span className="font-semibold text-charcoal-800">Toplam</span>
                                 <span className="font-display text-2xl text-gold">₺{total.toFixed(2)}</span>
                             </div>
                         </div>
@@ -333,7 +333,7 @@ export function CartDrawer() {
                         {/* WhatsApp Butonu */}
                         <button
                             onClick={handleOrder}
-                            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a850] text-white font-sans font-600 text-sm transition-colors"
+                            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a850] text-white font-sans font-semibold text-sm transition-colors"
                         >
                             <MessageCircle className="w-5 h-5" />
                             WhatsApp ile Sipariş Ver
@@ -342,7 +342,7 @@ export function CartDrawer() {
                         {/* Sepeti Boşalt */}
                         <button
                             onClick={() => { if (confirm('Sepet boşaltılsın mı?')) clearCart(); }}
-                            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-warm-gray-200 hover:border-red-300 hover:bg-red-50 active:bg-red-100 text-warm-gray-500 hover:text-red-600 font-sans font-500 text-sm transition-colors"
+                            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-warm-gray-200 hover:border-red-300 hover:bg-red-50 active:bg-red-100 text-warm-gray-500 hover:text-red-600 font-sans font-medium text-sm transition-colors"
                         >
                             <Trash2 className="w-4 h-4" />
                             Sepeti Boşalt

@@ -59,12 +59,7 @@ export function Navbar() {
               >
                 Hakkımızda
               </a>
-              <a
-                href="#contact"
-                className="font-sans text-sm font-400 uppercase tracking-wider text-charcoal-700 hover:text-gold transition-colors"
-              >
-                İletişim
-              </a>
+             
             </div>
 
             {/* Sepet Butonu */}
@@ -75,7 +70,7 @@ export function Navbar() {
             >
               <ShoppingBag className="w-6 h-6 text-charcoal-700" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-charcoal-800 text-2xs font-sans font-600 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-charcoal-800 text-2xs font-sans font-semibold rounded-full flex items-center justify-center">
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}
@@ -106,7 +101,7 @@ export function Navbar() {
         style={{ top: '80px' }}
       >
         <nav className="p-6 space-y-6">
-          <p className="font-sans text-xs font-600 uppercase tracking-widest text-gold mb-3">
+          <p className="font-sans text-xs font-semibold uppercase tracking-widest text-gold mb-3">
             Kategoriler
           </p>
           <a
