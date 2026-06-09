@@ -95,7 +95,24 @@ export function CartDrawer() {
         const origin = typeof window !== 'undefined' ? window.location.origin : '';
         const detailLink = `${origin}/siparis?d=${encoded}`;
 
-        const waMessage = `Merhaba, yeni bir siparişim var! 🛍️\n\nSipariş Detayları:\n${detailLink}`;
+        // ── YENİ: Okunabilir Düzenli Ürün Detay Metni Oluşturma ──────────────────
+        let itemDetails = '';
+        items.forEach((item) => {
+            const variantStr = item.selectedVariant ? ` (${item.selectedVariant.name})` : '';
+            const units = item.quantity * 6;
+            itemDetails += `• ${item.quantity} Pk (${units} Adet) - ${item.title}${variantStr}\n`;
+        });
+
+        // ── YENİ: WhatsApp Şablonunu Oluşturma (Link En Alta Gizlendi) ─────────────
+        const waMessage =
+            `🛍️ *YENİ SİPARİŞ*\n\n` +
+            `👤 *Müşteri:* ${customerName.trim()}\n` +
+            `📞 *Telefon:* ${customerPhone.trim()}\n` +
+            `📍 *Adres:* ${customerAddress.trim()}\n\n` +
+            `📦 *Ürünler:*\n${itemDetails}\n` +
+            `💰 *Toplam Tutar:* ₺${total.toFixed(2)}\n\n` +
+            `🔗 *Sipariş Yönetim & Detay Linki:*\n${detailLink}`;
+
         const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
 
         window.open(waLink, '_blank');
