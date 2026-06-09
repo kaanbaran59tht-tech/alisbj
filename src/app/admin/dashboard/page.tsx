@@ -7,7 +7,7 @@ import { CATEGORIES } from '@/types/index';
 import {
     Plus, Trash2, Loader2,
     Package, Box, ImageIcon, RefreshCw,
-    Link2, Upload, X,
+    Link2, Upload, X, Edit3
 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { cn } from '@/lib/utils';
@@ -38,6 +38,9 @@ export default function AdminDashboardPage() {
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [form, setForm] = useState(EMPTY_FORM);
     const [imgError, setImgError] = useState(false);
+
+    // ─── Düzenleme Modu State'i ──────────────────────────────────────────────
+    const [editingProductId, setEditingProductId] = useState<string | null>(null);
 
     // ─── Görsel seçim modu ─────────────────────────────────────────────────────
     const [imgMode, setImgMode] = useState<'url' | 'upload'>('url');
@@ -204,8 +207,32 @@ export default function AdminDashboardPage() {
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
-    // ─── Ürün Ekle ──────────────────────────────────────────────────────────────
-    const handleAdd = async (e: React.FormEvent) => {
+    // ─── Düzenleme Modunu Başlat ──────────────────────────────────────────────
+    const handleEditClick = (product: DBProduct) => {
+        setEditingProductId(product.id);
+        setForm({
+            title: product.title,
+            description: product.description || '',
+            price: product.price.toString(),
+            image_url: product.image_url || '',
+            category: product.category_id,
+        });
+        setImgMode('url');
+        clearUpload();
+        setImgError(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Formun olduğu yukarı kısma kaydırır
+    };
+
+    // ─── Düzenlemeyi İptal Et ────────────────────────────────────────────────
+    const handleCancelEdit = () => {
+        setEditingProductId(null);
+        setForm(EMPTY_FORM);
+        clearUpload();
+        setImgError(false);
+    };
+
+    // ─── Ürün Ekle veya Güncelle (Submit) ──────────────────────────────────────
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!form.title.trim()) { toast.error('Ürün adı zorunlu'); return; }
@@ -215,8 +242,9 @@ export default function AdminDashboardPage() {
 
         setSubmitting(true);
         try {
-            let finalImageUrl: string | null = null;
+            let finalImageUrl: string | null = form.image_url.trim() || null;
 
+            // Eğer yeni bir dosya yüklenmişse storage'a gönder
             if (imgMode === 'upload' && uploadFile) {
                 setUploading(true);
                 toast.loading('Görsel yükleniyor…', { id: 'upload' });
@@ -234,29 +262,45 @@ export default function AdminDashboardPage() {
                 setUploading(false);
             }
 
-            if (imgMode === 'url' && form.image_url.trim()) {
-                finalImageUrl = form.image_url.trim();
+            const supabase = createClient();
+            const productPayload = {
+                title: form.title.trim(),
+                description: form.description.trim() || null,
+                price: parseFloat(form.price),
+                image_url: finalImageUrl,
+                category_id: form.category,
+                is_active: true,
+                created_by: user?.id,
+            };
+
+            if (editingProductId) {
+                // ─── GÜNCELLEME MODU ───
+                const { data, error } = await supabase
+                    .from('products')
+                    .update(productPayload)
+                    .eq('id', editingProductId)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                toast.success('✅ Ürün güncellendi!');
+                setProducts(products.map((p) => (p.id === editingProductId ? data : p)));
+                setEditingProductId(null);
+            } else {
+                // ─── EKLEME MODU ───
+                const { data, error } = await supabase
+                    .from('products')
+                    .insert(productPayload)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                toast.success('✅ Ürün eklendi!');
+                setProducts([data, ...products]);
             }
 
-            const supabase = createClient();
-            const { data, error } = await supabase
-                .from('products')
-                .insert({
-                    title: form.title.trim(),
-                    description: form.description.trim() || null,
-                    price: parseFloat(form.price),
-                    image_url: finalImageUrl,
-                    category_id: form.category,
-                    is_active: true,
-                    created_by: user?.id,
-                })
-                .select()
-                .single();
-
-            if (error) throw error;
-
-            toast.success('✅ Ürün eklendi!');
-            setProducts([data, ...products]);
             setForm(EMPTY_FORM);
             setImgError(false);
             clearUpload();
@@ -267,7 +311,7 @@ export default function AdminDashboardPage() {
         }
     };
 
-    // ─── Ürün Sil (Storage Görseliyle Birlikte Temizleme Eklenmiş Hali) ──────────
+    // ─── Ürün Sil ──────────────────────────────────────────────────────────────
     const handleDelete = async (id: string, title: string, imageUrl?: string) => {
         if (!confirm(`"${title}" ürününü silmek istediğinize emin misiniz?`)) return;
 
@@ -275,13 +319,11 @@ export default function AdminDashboardPage() {
         try {
             const supabase = createClient();
 
-            // 1. Eğer görsel bizim Supabase Storage'a yüklenmişse önce dosyayı silelim
             if (imageUrl && (imageUrl.includes('/storage/v1/object/public/product-images/') || imageUrl.includes('storage.googleapis.com'))) {
                 try {
                     const urlParts = imageUrl.split('/product-images/');
                     if (urlParts.length > 1) {
                         const storagePath = urlParts[1];
-
                         const { error: storageError } = await supabase.storage
                             .from('product-images')
                             .remove([storagePath]);
@@ -295,12 +337,12 @@ export default function AdminDashboardPage() {
                 }
             }
 
-            // 2. Veritabanındaki ürün satırını silelim
             const { error } = await supabase.from('products').delete().eq('id', id);
             if (error) throw error;
 
             setProducts(products.filter((p) => p.id !== id));
             toast.success('🗑️ Ürün ve görseli silindi');
+            if (editingProductId === id) handleCancelEdit();
         } catch (err: any) {
             toast.error('Silinemedi: ' + err.message);
         } finally {
@@ -342,12 +384,18 @@ export default function AdminDashboardPage() {
                 <div className="card-luxury">
                     <div className="flex items-center gap-3 mb-8">
                         <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center">
-                            <Plus className="w-5 h-5 text-gold" />
+                            {editingProductId ? (
+                                <Edit3 className="w-5 h-5 text-gold" />
+                            ) : (
+                                <Plus className="w-5 h-5 text-gold" />
+                            )}
                         </div>
-                        <h2 className="font-display text-2xl text-charcoal-800">Yeni Ürün Ekle</h2>
+                        <h2 className="font-display text-2xl text-charcoal-800">
+                            {editingProductId ? 'Ürünü Düzenle' : 'Yeni Ürün Ekle'}
+                        </h2>
                     </div>
 
-                    <form onSubmit={handleAdd} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label className="label-bijou">Ürün Adı *</label>
@@ -519,7 +567,7 @@ export default function AdminDashboardPage() {
                             )}
                         </div>
 
-                        <div className="pt-2">
+                        <div className="flex items-center gap-3 pt-2">
                             <button
                                 type="submit"
                                 disabled={submitting || uploading}
@@ -528,7 +576,11 @@ export default function AdminDashboardPage() {
                                 {submitting ? (
                                     <>
                                         <Loader2 className="w-4 h-4 animate-spin" />
-                                        {uploading ? 'Görsel yükleniyor…' : 'Ekleniyor…'}
+                                        {uploading ? 'Görsel yükleniyor…' : 'Kaydediliyor…'}
+                                    </>
+                                ) : editingProductId ? (
+                                    <>
+                                        <Edit3 className="w-4 h-4" /> Değişiklikleri Kaydet
                                     </>
                                 ) : (
                                     <>
@@ -536,6 +588,17 @@ export default function AdminDashboardPage() {
                                     </>
                                 )}
                             </button>
+
+                            {editingProductId && (
+                                <button
+                                    type="button"
+                                    onClick={handleCancelEdit}
+                                    disabled={submitting}
+                                    className="btn-outline w-full md:w-auto px-5 py-2.5 text-xs text-warm-gray-500 hover:bg-warm-gray-50"
+                                >
+                                    Vazgeç
+                                </button>
+                            )}
                         </div>
                     </form>
                 </div>
@@ -578,7 +641,7 @@ export default function AdminDashboardPage() {
                                 </thead>
                                 <tbody className="divide-y divide-warm-gray-100">
                                     {products.map((product) => (
-                                        <tr key={product.id} className="hover:bg-cream-100 transition-colors">
+                                        <tr key={product.id} className={cn("hover:bg-cream-100 transition-colors", editingProductId === product.id && "bg-gold/5 hover:bg-gold/5")}>
                                             <td className="px-4 py-4">
                                                 {product.image_url ? (
                                                     <img
@@ -621,18 +684,30 @@ export default function AdminDashboardPage() {
                                             </td>
 
                                             <td className="px-4 py-4 text-right">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleDelete(product.id, product.title, product.image_url)}
-                                                    disabled={deletingId === product.id}
-                                                    className="p-2 text-warm-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
-                                                >
-                                                    {deletingId === product.id ? (
-                                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                                    ) : (
-                                                        <Trash2 className="w-4 h-4" />
-                                                    )}
-                                                </button>
+                                                <div className="flex items-center justify-end gap-1">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleEditClick(product)}
+                                                        disabled={submitting}
+                                                        className="p-2 text-warm-gray-400 hover:text-gold rounded-lg hover:bg-gold/5 transition-colors"
+                                                        title="Düzenle"
+                                                    >
+                                                        <Edit3 className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDelete(product.id, product.title, product.image_url)}
+                                                        disabled={deletingId === product.id}
+                                                        className="p-2 text-warm-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
+                                                        title="Sil"
+                                                    >
+                                                        {deletingId === product.id ? (
+                                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                                        ) : (
+                                                            <Trash2 className="w-4 h-4" />
+                                                        )}
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
