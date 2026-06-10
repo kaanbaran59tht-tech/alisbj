@@ -35,13 +35,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
               ? { ...i, quantity: i.quantity + newItem.quantity }
               : i
           ),
-          isOpen: true,
         };
       }
 
       return {
         items: [{ ...newItem, id }, ...state.items],
-        isOpen: true,
       };
     }),
 

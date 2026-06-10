@@ -10,20 +10,29 @@ export interface ProductVariant {
     size?: string;
 }
 
+import { createElement } from 'react';
+import { 
+    Link2, Heart, Sparkles, Circle, Waves, 
+    Sun, Gem, Watch, Crown, Smile, Moon, User 
+} from 'lucide-react';
+
+const iconClass = "w-4 h-4 inline-block";
+
 // ─── Kategoriler (DÜZELTME: id alanları Supabase UUID'leri ile eşitlendi) ──
 export const CATEGORIES = [
-    { id: 'aa111111-1111-1111-1111-111111111111', name: 'BİLEKLİK', icon: '⌚' },
-    { id: 'bb222222-2222-2222-2222-222222222222', name: 'KOLYE', icon: '📿' },
-    { id: 'cc333333-3333-3333-3333-333333333333', name: 'KÜPE', icon: '💎' },
-    { id: 'dd444444-4444-4444-4444-444444444444', name: 'YÜZÜK', icon: '💍' },
-    { id: 'ee555555-5555-5555-5555-555555555555', name: 'HALHAL', icon: '📍' },
-    { id: 'ff666666-6666-6666-6666-666666666666', name: 'CHARM', icon: '✨' },
-    { id: '77777777-7777-7777-7777-777777777777', name: 'HIZMA & PIERCING', icon: '🔧' },
-    { id: '88888888-8888-8888-8888-888888888888', name: 'SAAT', icon: '⏰' },
-    { id: '99999999-9999-9999-9999-999999999999', name: 'XUPİNG', icon: '👑' },
-    { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', name: 'ÇOCUKLARA ÖZEL', icon: '👧' },
-    { id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', name: 'ÇELİK KOLYE UCU', icon: '🔗' },
-    { id: 'cccccccc-cccc-cccc-cccc-cccccccccccc', name: 'ERKEK ÜRÜNLERİ', icon: '👨' },
+    { id: 'virtual-new-arrivals', name: 'YENİ EKLENENLER', icon: createElement(Sparkles, { className: iconClass }), virtual: true },
+    { id: 'aa111111-1111-1111-1111-111111111111', name: 'BİLEKLİK', icon: createElement(Link2, { className: iconClass }) },
+    { id: 'bb222222-2222-2222-2222-222222222222', name: 'KOLYE', icon: createElement(Heart, { className: iconClass }) },
+    { id: 'cc333333-3333-3333-3333-333333333333', name: 'KÜPE', icon: createElement(Sparkles, { className: iconClass }) },
+    { id: 'dd444444-4444-4444-4444-444444444444', name: 'YÜZÜK', icon: createElement(Circle, { className: iconClass }) },
+    { id: 'ee555555-5555-5555-5555-555555555555', name: 'HALHAL', icon: createElement(Waves, { className: iconClass }) },
+    { id: 'ff666666-6666-6666-6666-666666666666', name: 'CHARM', icon: createElement(Sun, { className: iconClass }) },
+    { id: '77777777-7777-7777-7777-777777777777', name: 'HIZMA & PIERCING', icon: createElement(Gem, { className: iconClass }) },
+    { id: '88888888-8888-8888-8888-888888888888', name: 'SAAT', icon: createElement(Watch, { className: iconClass }) },
+    { id: '99999999-9999-9999-9999-999999999999', name: 'XUPİNG', icon: createElement(Crown, { className: iconClass }) },
+    { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', name: 'ÇOCUKLARA ÖZEL', icon: createElement(Smile, { className: iconClass }) },
+    { id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', name: 'ÇELİK KOLYE UCU', icon: createElement(Moon, { className: iconClass }) },
+    { id: 'cccccccc-cccc-cccc-cccc-cccccccccccc', name: 'ERKEK ÜRÜNLERİ', icon: createElement(User, { className: iconClass }) },
 ] as const;
 
 export type CategoryId = typeof CATEGORIES[number]['id'];
@@ -61,6 +70,7 @@ export interface CartItem {
         name: string;
     };
     image_url?: string;
+    category_id?: string;
 }
 
 // ─── Koleksiyon ────────────────────────────────────────────────────────

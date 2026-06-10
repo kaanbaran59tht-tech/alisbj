@@ -444,7 +444,7 @@ export default function AdminDashboardPage() {
                                 disabled={submitting}
                             >
                                 <option value="">Kategori Seçin</option>
-                                {CATEGORIES.map((cat) => (
+                                {CATEGORIES.filter(c => !(c as any).virtual).map((cat) => (
                                     <option key={cat.id} value={cat.id}>
                                         {cat.name}
                                     </option>

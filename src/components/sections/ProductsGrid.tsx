@@ -16,12 +16,47 @@ interface DBProduct {
     category_id: string;
 }
 
+// ─── Günlük Seed Üreteci (Günün İndirimi) ────────────────────────────────────
+function seededRandom(seed: number) {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+}
+
+function getDailyDiscountedProductIds(products: DBProduct[]): string[] {
+    if (products.length === 0) return [];
+    
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+    
+    let seed = 0;
+    for (let i = 0; i < dateStr.length; i++) {
+        seed += dateStr.charCodeAt(i);
+    }
+    
+    const p1Index = Math.floor(seededRandom(seed) * products.length);
+    let p2Index = Math.floor(seededRandom(seed + 1) * products.length);
+    
+    if (p1Index === p2Index && products.length > 1) {
+        p2Index = (p2Index + 1) % products.length;
+    }
+    
+    return [products[p1Index].id, products[p2Index]?.id].filter(Boolean);
+}
+
 export function ProductsGrid() {
     const [products, setProducts] = useState<DBProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [search, setSearch] = useState('');
+    const [visibleCount, setVisibleCount] = useState(50);
+
+    // Kategori veya arama değiştiğinde sayfalama sıfırlansın
+    useEffect(() => {
+        setVisibleCount(50);
+    }, [activeCategory, search]);
 
     // ─── Ürünleri Yükle ────────────────────────────────────────────────────────
     const loadProducts = useCallback(async () => {
@@ -48,11 +83,28 @@ export function ProductsGrid() {
         loadProducts();
     }, [loadProducts]);
 
-    // ─── Performanslı Filtreleme (useMemo) ──────────────────────────────────────
+    // ─── Günün İndirimi Hesabı ─────────────────────────────────────────────────
+    const discountedIds = useMemo(() => getDailyDiscountedProductIds(products), [products]);
+    const midnight = useMemo(() => {
+        const d = new Date();
+        d.setHours(23, 59, 59, 999);
+        return d.getTime();
+    }, []);
+
+    // ─── Kategori ismi ─────────────────────────────────────────────────────────
+    const categoryName = useMemo(() => {
+        if (!activeCategory) return null;
+        return CATEGORIES.find((c) => c.id === activeCategory)?.name || null;
+    }, [activeCategory]);
+
+    // ─── Performanslı Filtreleme ve Sıralama ────────────────────────────────────
     const filteredProducts = useMemo(() => {
         let result = [...products];
 
-        if (activeCategory) {
+        if (activeCategory === 'virtual-new-arrivals') {
+            // Sadece en yeni 25 ürünü al
+            result = result.slice(0, 25);
+        } else if (activeCategory) {
             result = result.filter((p) => p.category_id === activeCategory);
         }
 
@@ -65,14 +117,17 @@ export function ProductsGrid() {
             );
         }
 
-        return result;
-    }, [products, activeCategory, search]);
+        // İndirimli ürünleri her zaman en başa al
+        result.sort((a, b) => {
+            const aDiscounted = discountedIds.includes(a.id);
+            const bDiscounted = discountedIds.includes(b.id);
+            if (aDiscounted && !bDiscounted) return -1;
+            if (!aDiscounted && bDiscounted) return 1;
+            return 0; // Aksi halde orijinal sıralamayı (created_at) koru
+        });
 
-    // ─── Kategori ismi ─────────────────────────────────────────────────────────
-    const categoryName = useMemo(() => {
-        if (!activeCategory) return null;
-        return CATEGORIES.find((c) => c.id === activeCategory)?.name || null;
-    }, [activeCategory]);
+        return result;
+    }, [products, activeCategory, search, discountedIds]);
 
     return (
         <section id="products" className="py-16 md:py-24 bg-cream-50">
@@ -89,7 +144,7 @@ export function ProductsGrid() {
                     <div className="mx-auto w-12 h-px bg-gold" />
                     {!activeCategory && (
                         <p className="text-warm-gray-500 font-sans text-xs sm:text-sm max-w-xl mx-auto">
-                            Toptan çelik takı koleksiyonumuz — her sipariş 6'lı paket halindedir.
+                            Toptan çelik takı koleksiyonumuz — her sipariş 12'li paket halindedir.
                         </p>
                     )}
                 </div>
@@ -162,20 +217,39 @@ export function ProductsGrid() {
 
                 {/* Ürün Grid Yapısı */}
                 {!loading && !error && filteredProducts.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-4 sm:px-0">
-                        {filteredProducts.map((product) => (
-                            <ProductCard
-                                key={product.id}
-                                id={product.id}
-                                title={product.title}
-                                description={product.description}
-                                price={product.price}
-                                image_url={product.image_url}
-                                category_id={product.category_id}
-                                allProducts={products} // -> Tüm listeyi benzer ürünler için aktarıyoruz
-                            />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-4 sm:px-0">
+                            {filteredProducts.slice(0, visibleCount).map((product) => {
+                                const isDiscounted = discountedIds.includes(product.id);
+                                return (
+                                    <ProductCard
+                                        key={product.id}
+                                        id={product.id}
+                                        title={product.title}
+                                        description={product.description}
+                                        price={product.price}
+                                        image_url={product.image_url}
+                                        category_id={product.category_id}
+                                        allProducts={products}
+                                        discountPercentage={isDiscounted ? 5 : undefined}
+                                        discountEndTime={isDiscounted ? midnight : undefined}
+                                    />
+                                );
+                            })}
+                        </div>
+
+                        {/* Devamını Gör Butonu */}
+                        {visibleCount < filteredProducts.length && (
+                            <div className="flex justify-center mt-10">
+                                <button
+                                    onClick={() => setVisibleCount((prev) => prev + 50)}
+                                    className="px-8 py-3 bg-white border border-warm-gray-200 text-charcoal-700 hover:bg-cream-100 rounded-full font-sans text-sm font-semibold tracking-wide shadow-sm hover:shadow-md transition-all duration-300"
+                                >
+                                    Daha Fazla Ürün Göster ({filteredProducts.length - visibleCount} ürün kaldı)
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
 
                 {/* Sonuç Bulunamadı */}

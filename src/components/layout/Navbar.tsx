@@ -65,12 +65,13 @@ export function Navbar() {
             {/* Sepet Butonu */}
             <button
               onClick={openCart}
-              className="relative btn-icon hover:bg-gold/10 ml-4"
+              className="relative flex items-center gap-2 px-4 py-2 ml-4 bg-[#F8F4EE] border border-[#E4E0D8] hover:border-[#D4A829] rounded-full transition-all group shadow-sm"
               aria-label="Sepet"
             >
-              <ShoppingBag className="w-6 h-6 text-charcoal-700" />
+              <ShoppingBag className="w-5 h-5 text-charcoal-700 group-hover:text-gold transition-colors" />
+              <span className="font-sans font-medium text-xs md:text-sm text-charcoal-800 tracking-wider hidden sm:block">SEPETİM</span>
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gold text-charcoal-800 text-2xs font-sans font-semibold rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gold text-charcoal-800 text-2xs font-sans font-bold rounded-full flex items-center justify-center shadow-sm border border-white">
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}
