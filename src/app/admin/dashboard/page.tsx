@@ -366,7 +366,7 @@ export default function AdminDashboardPage() {
                     <div>
                         <h1 className="font-display text-4xl text-charcoal-800">Ürün Yönetimi</h1>
                         <p className="text-warm-gray-500 font-sans mt-1">
-                            {products.length} ürün • 6'lı paket sistemi
+                            {products.length} ürün • 12'li paket sistemi
                         </p>
                     </div>
                     <button
@@ -412,7 +412,7 @@ export default function AdminDashboardPage() {
                             </div>
 
                             <div>
-                                <label className="label-bijou">Paket Fiyatı (₺) — 6 Adet *</label>
+                                <label className="label-bijou">Paket Fiyatı (₺) — 12 Adet *</label>
                                 <input
                                     type="number"
                                     name="price"
@@ -427,7 +427,7 @@ export default function AdminDashboardPage() {
                                 />
                                 {form.price && parseFloat(form.price) > 0 && (
                                     <p className="text-2xs text-gold font-sans mt-1">
-                                        Adet başı ≈ ₺{(parseFloat(form.price) / 6).toFixed(2)}
+                                        Adet başı ≈ ₺{(parseFloat(form.price) / 12).toFixed(2)}
                                     </p>
                                 )}
                             </div>
@@ -672,11 +672,11 @@ export default function AdminDashboardPage() {
 
                                             <td className="px-4 py-4">
                                                 <span className="font-sans text-charcoal-700">₺{product.price.toFixed(2)}</span>
-                                                <p className="text-2xs text-warm-gray-400 font-sans">6 adet</p>
+                                                <p className="text-2xs text-warm-gray-400 font-sans">12 adet</p>
                                             </td>
 
                                             <td className="px-4 py-4">
-                                                <span className="font-display font-medium text-gold text-base">₺{(product.price / 6).toFixed(2)}</span>
+                                                <span className="font-display font-medium text-gold text-base">₺{(product.price / 12).toFixed(2)}</span>
                                             </td>
 
                                             <td className="px-4 py-4 text-2xs text-warm-gray-400 font-sans whitespace-nowrap">

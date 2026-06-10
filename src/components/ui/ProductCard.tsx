@@ -45,9 +45,9 @@ function ProductModal({
         setTab('detay');
     }, [activeProduct]);
 
-    const apUnitPrice = useMemo(() => activeProduct.price / 6, [activeProduct.price]);
+    const apUnitPrice = useMemo(() => activeProduct.price / 12, [activeProduct.price]);
     const apTotalPrice = useMemo(() => activeProduct.price * packages, [activeProduct.price, packages]);
-    const apTotalUnits = useMemo(() => packages * 6, [packages]);
+    const apTotalUnits = useMemo(() => packages * 12, [packages]);
 
     const apCategoryLabel = useMemo(() => {
         return CATEGORIES.find((c) => c.id === activeProduct.category_id);
@@ -149,7 +149,7 @@ function ProductModal({
                             </div>
                         )}
                         <div className="absolute top-3 left-3 bg-[#161616]/80 text-[#FDFAF4] px-2.5 py-1 rounded text-[10px] font-sans font-medium tracking-widest shadow-sm uppercase">
-                            Toptan 6'lı Paket
+                            Toptan 12'li Paket
                         </div>
                     </div>
 
@@ -283,7 +283,7 @@ export function ProductCard(props: ProductCardProps) {
     const [modalOpen, setModalOpen] = useState(false);
     const { addPackage } = useCartStore();
 
-    const unitPrice = useMemo(() => price / 6, [price]);
+    const unitPrice = useMemo(() => price / 12, [price]);
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -316,7 +316,7 @@ export function ProductCard(props: ProductCardProps) {
                     )}
 
                     <div className="absolute top-3 left-3 bg-[#161616]/80 backdrop-blur-md text-[#FDFAF4] px-2.5 py-1 rounded-md text-[9px] font-sans font-medium tracking-widest uppercase shadow-2xs">
-                        6'lı Paket
+                        12'li Paket
                     </div>
 
                     <div className="absolute top-3 right-3 bg-[#FDFAF4]/90 p-2 rounded-full shadow-2xs opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-xs">
@@ -360,7 +360,7 @@ export function ProductCard(props: ProductCardProps) {
 
                     <div className="pt-2 border-t border-[#E4E0D8]/50 flex items-end justify-between">
                         <div className="flex flex-col">
-                            <span className="text-[9px] font-sans text-[#9E9589] uppercase tracking-widest mb-0.5">Adet Maliyeti</span>
+                            <span className="text-[9px] font-sans text-[#9E9589] uppercase tracking-widest mb-0.5">Adet Fiyatı</span>
                             <span className="text-xs font-sans font-medium text-[#9E9589]">₺{unitPrice.toFixed(2)}</span>
                         </div>
                         <div className="flex flex-col text-right">

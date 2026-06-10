@@ -60,7 +60,7 @@ function SiparisDetayIcerik() {
         );
     }
 
-    const totalUnits = order.items.reduce((s, i) => s + i.quantity * 6, 0);
+    const totalUnits = order.items.reduce((s, i) => s + i.quantity * 12, 0);
     const date = new Date(order.createdAt).toLocaleString('tr-TR', {
         day: '2-digit', month: 'long', year: 'numeric',
         hour: '2-digit', minute: '2-digit',
@@ -129,7 +129,7 @@ function SiparisDetayIcerik() {
 
                 <div className="divide-y divide-[#F5F0E8]">
                     {order.items.map((item, idx) => {
-                        const unitPrice = item.packagePrice / 6;
+                        const unitPrice = item.packagePrice / 12;
                         const lineTotal = item.packagePrice * item.quantity;
                         const pageImageUrl = item.image_url || (item.category_id ? `/images/categories/${item.category_id}.jpg` : null);
 
@@ -153,7 +153,7 @@ function SiparisDetayIcerik() {
                                     <div className="flex items-center gap-2 mt-1.5 text-2xs font-sans text-[#9E9589]">
                                         <span>{item.quantity} paket</span>
                                         <span>·</span>
-                                        <span>{item.quantity * 6} adet</span>
+                                        <span>{item.quantity * 12} adet</span>
                                         <span>·</span>
                                         <span>₺{unitPrice.toFixed(2)}/adet</span>
                                     </div>

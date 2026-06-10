@@ -99,7 +99,7 @@ export function CartDrawer() {
         let itemDetails = '';
         items.forEach((item) => {
             const variantStr = item.selectedVariant ? ` (${item.selectedVariant.name})` : '';
-            const units = item.quantity * 6;
+            const units = item.quantity * 12;
             itemDetails += `• ${item.quantity} Pk (${units} Adet) - ${item.title}${variantStr}\n`;
         });
 
@@ -196,9 +196,9 @@ export function CartDrawer() {
                         ) : (
                             <div className="px-4 py-3 space-y-3">
                                 {items.map((item) => {
-                                    const unitPrice = item.packagePrice / 6;
+                                    const unitPrice = item.packagePrice / 12;
                                     const lineTotal = item.packagePrice * item.quantity;
-                                    const units = item.quantity * 6;
+                                    const units = item.quantity * 12;
                                     const finalImageUrl = item.image_url || (item.category_id ? `/images/categories/${item.category_id}.jpg` : null);
 
                                     return (
@@ -368,7 +368,7 @@ export function CartDrawer() {
                                             <div className="min-w-0">
                                                 <p className="text-xs font-sans font-500 text-charcoal-800 truncate">{item.title}</p>
                                                 {item.selectedVariant && <p className="text-2xs text-warm-gray-500">{item.selectedVariant.name}</p>}
-                                                <p className="text-2xs text-warm-gray-600">{item.quantity} paket · {item.quantity * 6} adet</p>
+                                                <p className="text-2xs text-warm-gray-600">{item.quantity} paket · {item.quantity * 12} adet</p>
                                             </div>
                                         </div>
                                         <span className="text-xs font-sans font-600 text-gold whitespace-nowrap">

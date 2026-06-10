@@ -1,5 +1,5 @@
 // ═════════════════════════════════════════════════════════════════════════
-// BIJOU — Tür Tanımları (6'lı Paket Sistemi)
+// BIJOU — Tür Tanımları (12'li Paket Sistemi)
 // ═════════════════════════════════════════════════════════════════════════
 
 // ─── Ürün Varyantları (Renk, Ölçü vb.) ──────────────────────────────────
@@ -33,13 +33,13 @@ export interface Category {
     name: string;
 }
 
-// ─── Ürün (6 Adet = 1 Paket) ───────────────────────────────────────────
+// ─── Ürün (12 Adet = 1 Paket) ──────────────────────────────────────────
 export interface Product {
     id: string;
     slug: string;
     name: string;
     description?: string;
-    price: number; // PAKET FİYATI (6 adet içindir)
+    price: number; // PAKET FİYATI (12 adet içindir)
     image_url?: string;
     variants?: ProductVariant[]; // Renk, ölçü vb.
     category_id: CategoryId; // DÜZELTME: category -> category_id yapıldı (UUID uyumlu)
@@ -54,8 +54,8 @@ export interface CartItem {
     id: string; // productId-variantId
     productId: string;
     title: string;
-    packagePrice: number; // 6 adet fiyatı
-    quantity: number; // PAKET SAYISI (1 paket = 6 adet)
+    packagePrice: number; // 12 adet fiyatı
+    quantity: number; // PAKET SAYISI (1 paket = 12 adet)
     selectedVariant?: {
         id: string;
         name: string;
@@ -88,7 +88,7 @@ export interface OrderItem {
     productName: string;
     packagePrice: number;
     packageQuantity: number; // Kaç paket
-    unitQuantity: number; // Kaç adet (packageQuantity * 6)
+    unitQuantity: number; // Kaç adet (packageQuantity * 12)
     selectedVariant?: {
         id: string;
         name: string;
