@@ -3,6 +3,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ProductsGrid } from '@/components/sections/ProductsGrid'; // Yolunuzu kontrol edin
 import { ChevronDown } from 'lucide-react';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 
 export default function HomePage() {
     // Sunucu tarafında (Server-side) bir kere hesaplanır, istemciyi yormaz.
@@ -45,26 +46,24 @@ export default function HomePage() {
                         </p>
 
                         <h1 className="font-display text-5xl md:text-7xl text-white leading-tight animate-fade-up">
-                            Zarafetin
-                            <span className="block text-[#D4A829]">Yeni Adı</span>
+                            Toptan Takıda
+                            <span className="block text-[#D4A829]">Zarafetin Yeni Adı</span>
                         </h1>
 
                         <p className="font-display italic text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto animate-fade-up">
-                            Çelik takı koleksiyonu — kalite, fiyat, hız.
+                            Toptan çelik takı koleksiyonu — üstün kalite, toptan fiyatlar, hızlı teslimat.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up">
                             <a href="#products" className="btn-gold">
                                 Ürünleri Keşfet
                             </a>
-                            <a
-                                href={whatsappUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <WhatsAppButton
+                                whatsappUrl={whatsappUrl}
                                 className="btn-outline border-gray-600 text-gray-200 hover:border-[#D4A829] hover:text-[#D4A829]"
                             >
                                 WhatsApp İletişim
-                            </a>
+                            </WhatsAppButton>
                         </div>
                     </div>
 
@@ -84,7 +83,7 @@ export default function HomePage() {
                             <div className="lg:col-span-7 space-y-6 animate-fade-up">
                                 <span className="block font-sans font-medium text-xs uppercase tracking-widest text-[#9E9589]">Hikayemiz & Zarafet</span>
                                 <h2 className="text-4xl md:text-5xl font-display text-[#161616] leading-tight">
-                                    Mücevherde Kalite ve <br />
+                                    Toptan Takı ve Çelik Bijuteride <br />
                                     <span className="italic text-[#D4A829]">Güvenilir Toptan Ticaret</span>
                                 </h2>
                                 <div className="font-sans text-base text-[#555555] leading-relaxed space-y-6">
@@ -107,7 +106,7 @@ export default function HomePage() {
                                     <div className="relative group overflow-hidden rounded-lg aspect-[3/4] w-full">
                                         <Image
                                             src="/arka.jpg"
-                                            alt="Hakkımızda Görseli"
+                                            alt="Allure Toptan Takı - Üretim ve Tedarik"
                                             fill
                                             sizes="(max-w-1024px) 100vw, 40vw"
                                             className="object-cover transition-transform duration-700 group-hover:scale-105"
