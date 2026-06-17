@@ -5,6 +5,8 @@ import { ShoppingBag, Menu, X } from 'lucide-react';
 import { useCartStore } from '@/hooks/useCart';
 import { CategoryDropdown } from '@/components/ui/CategoryDropdown';
 import { cn } from '@/lib/utils';
+import { CATEGORIES } from '@/types/index';
+import { useCategoryStore } from '@/hooks/useCategoryStore';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -59,7 +61,12 @@ export function Navbar() {
               >
                 Hakkımızda
               </a>
-             
+              <a
+                href="#contact"
+                className="font-sans text-sm font-400 uppercase tracking-wider text-charcoal-700 hover:text-gold transition-colors"
+              >
+                İletişim
+              </a>
             </div>
 
             {/* Sepet Butonu */}
@@ -104,6 +111,26 @@ export function Navbar() {
         <nav className="p-6 space-y-6">
           <p className="font-sans text-xs font-semibold uppercase tracking-widest text-gold mb-3">
             Kategoriler
+          </p>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => {
+                  useCategoryStore.getState().setActiveCategory(category.id);
+                  setIsMobileMenuOpen(false);
+                  const productsSection = document.getElementById('products');
+                  if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex items-center gap-2 text-left font-sans text-sm font-medium text-charcoal-700 hover:text-gold"
+              >
+                <span>{category.icon}</span>
+                {category.name}
+              </button>
+            ))}
+          </div>
+          <p className="font-sans text-xs font-semibold uppercase tracking-widest text-gold mb-3 border-t border-warm-gray-200 pt-6">
+            Menü
           </p>
           <a
             href="#hakkimizda"

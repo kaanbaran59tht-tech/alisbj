@@ -6,6 +6,7 @@ import { CATEGORIES } from '@/types/index';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { Loader2, AlertCircle, RefreshCw, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCategoryStore } from '@/hooks/useCategoryStore';
 
 interface DBProduct {
     id: string;
@@ -49,7 +50,7 @@ export function ProductsGrid() {
     const [products, setProducts] = useState<DBProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [activeCategory, setActiveCategory] = useState<string | null>(null);
+    const { activeCategory, setActiveCategory } = useCategoryStore();
     const [search, setSearch] = useState('');
     const [visibleCount, setVisibleCount] = useState(50);
 

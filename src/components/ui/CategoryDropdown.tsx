@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, X } from 'lucide-react'; // X buraya eklendi!
 import { CATEGORIES } from '@/types/index';
 import { cn } from '@/lib/utils';
+import { useCategoryStore } from '@/hooks/useCategoryStore';
 
 interface CategoryDropdownProps {
     onSelectCategory?: (categoryId: string | null) => void;
@@ -12,7 +13,7 @@ interface CategoryDropdownProps {
 
 export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const { activeCategory: selectedCategory, setActiveCategory: setSelectedCategory } = useCategoryStore();
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Dış klik kapatma
@@ -31,9 +32,16 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
     }, []);
 
     const handleSelect = (categoryId: string) => {
-        setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
-        onSelectCategory?.(categoryId === selectedCategory ? null : categoryId);
+        const newCategory = categoryId === selectedCategory ? null : categoryId;
+        setSelectedCategory(newCategory);
+        onSelectCategory?.(newCategory);
         setIsOpen(false);
+        
+        // Ürünler bölümüne kaydır
+        const productsSection = document.getElementById('products');
+        if (productsSection) {
+            productsSection.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     const selectedCategoryName =
@@ -100,7 +108,7 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
 
                     {/* Hepsini Temizle Butonu */}
                     {selectedCategory && (
-                        <div className="border-t border-warm-gray-200 p-3">
+                        <div className="border-t border-warm-gray-200 p-3 pb-1">
                             <button
                                 onClick={() => handleSelect(selectedCategory)}
                                 className="w-full px-3 py-2 rounded-lg bg-cream-100 hover:bg-cream-200 text-charcoal-700 text-sm font-sans font-medium transition-colors"
@@ -109,6 +117,22 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
                             </button>
                         </div>
                     )}
+
+                    {/* İletişim Butonu */}
+                    <div className="border-t border-warm-gray-200 p-3 pt-2">
+                        <button
+                            onClick={() => {
+                                setIsOpen(false);
+                                const contactSection = document.getElementById('contact');
+                                if (contactSection) {
+                                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-charcoal-800 hover:bg-charcoal-700 text-gold text-sm font-sans font-medium transition-colors"
+                        >
+                            <span>📞</span> İletişim
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

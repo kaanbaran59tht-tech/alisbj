@@ -67,7 +67,8 @@ export default function RootLayout({
     "telephone": "+905452544951",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Bağcılar",
+      "streetAddress": "Klas İş Merkezi Rüstempaşa Mah, Sabuncuhanı Sok., No:24A",
+      "addressLocality": "Fatih",
       "addressRegion": "İstanbul",
       "addressCountry": "TR"
     }
