@@ -87,7 +87,7 @@ export default function HomePage() {
                                     <span className="italic text-[#D4A829]">Güvenilir Toptan Ticaret</span>
                                 </h2>
                                 <div className="font-sans text-base text-[#555555] leading-relaxed space-y-6">
-                                    <p>İnternet alışverişlerinde güven duymanın ne kadar önemli olduğunu çok iyi biliyoruz. Bu yüzden size sadece bir web sitesi olarak değil, <strong>Klas İş Merkezi Rüstempaşa Mah, Sabuncuhanı Sok., No:24A, Fatih, İstanbul'daki fiziki üretim atölyemiz</strong> ve yılların getirdiği sektörel tecrübemizle hizmet veriyoruz.</p>
+                                    <p>İnternet alışverişlerinde güven duymanın ne kadar önemli olduğunu çok iyi biliyoruz. Bu yüzden size sadece bir web sitesi olarak değil, <strong>Klas İş Merkezi Rüstempaşa Mah, Sabuncuhanı Sok., No:24A, Fatih, İstanbul'daki fiziki toptan satış merkezimizde</strong> ve yılların getirdiği sektörel tecrübemizle hizmet veriyoruz.</p>
                                     <p>Biz, sadece son tüketiciye ulaşan bir marka değiliz; Türkiye’nin dört bir yanındaki <strong>çeşitli mağazalara ve işletmelere de toptan ürün tedariği sağlayan, üretici bir firmayız.</strong></p>
                                     <div className="pt-2">
                                         <ul className="space-y-3 list-none pl-0">
