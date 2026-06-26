@@ -38,24 +38,34 @@ export const CATEGORIES = [
 export type CategoryId = typeof CATEGORIES[number]['id'];
 
 export interface Category {
-    id: CategoryId;
+    id: string;
     name: string;
+    slug: string;
+    description?: string;
+    icon?: string;
+    display_order: number;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
 }
 
 // ─── Ürün (12 Adet = 1 Paket) ──────────────────────────────────────────
 export interface Product {
     id: string;
-    slug: string;
-    name: string;
-    description?: string;
-    price: number; // PAKET FİYATI (12 adet içindir)
-    image_url?: string;
-    variants?: ProductVariant[]; // Renk, ölçü vb.
-    category_id: CategoryId; // DÜZELTME: category -> category_id yapıldı (UUID uyumlu)
-    category_name?: string; // Kategori adı
-    is_active?: boolean;
+    title: string;
+    description?: string | null;
+    price: number;
+    image_url?: string | null;
     created_at: string;
     updated_at?: string;
+    created_by?: string | null;
+    is_active?: boolean;
+    category_id?: string | null;
+    
+    // UI/Frontend özel (DB'de olmayan)
+    slug?: string; 
+    variants?: ProductVariant[]; 
+    category_name?: string; 
 }
 
 // ─── Sepet Ürünü (Paket Sistemi) ──────────────────────────────────────
@@ -94,26 +104,30 @@ export type OrderStatus =
     | "cancelled";
 
 export interface OrderItem {
-    productId: string;
-    productName: string;
-    packagePrice: number;
-    packageQuantity: number; // Kaç paket
-    unitQuantity: number; // Kaç adet (packageQuantity * 12)
-    selectedVariant?: {
-        id: string;
-        name: string;
-    };
-    totalPrice: number;
+    id?: string;
+    order_id?: string;
+    title: string;
+    image_url?: string | null;
+    category_id?: string | null;
+    package_price: number;
+    quantity: number;
+    variant?: string | null;
 }
 
 export interface Order {
-    id: string;
-    items: OrderItem[];
-    status: OrderStatus;
-    totalPrice: number;
+    id?: string;
+    short_id?: string;
+    customer_name: string;
+    customer_phone: string;
+    customer_address?: string | null;
+    total: number;
+    created_at: string;
+    
+    // UI/Frontend özel alanlar
+    items?: OrderItem[];
+    status?: OrderStatus;
     whatsappMessageId?: string;
     notes?: string;
-    createdAt: string;
 }
 
 // ─── Admin ──────────────────────────────────────────────────────────────

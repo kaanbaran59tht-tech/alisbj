@@ -9,16 +9,7 @@ import {
 import toast from 'react-hot-toast';
 import { cn } from '@/lib/utils';
 import { ADMIN_PHONE } from '@/lib/env';
-
-// ─── Sipariş verisini Base64 URL'e göm ────────────────────────────────────────
-function encodeOrder(data: object): string {
-    try {
-        const json = JSON.stringify(data);
-        return btoa(unescape(encodeURIComponent(json)));
-    } catch {
-        return '';
-    }
-}
+import { supabase } from '@/lib/supabase';
 
 // ─── Ana Sepet Drawer ─────────────────────────────────────────────────────────
 export function CartDrawer() {
@@ -69,66 +60,90 @@ export function CartDrawer() {
         }
     }, [isOpen]);
 
-    const handleSubmitOrder = () => {
+    const handleSubmitOrder = async () => {
         if (!customerName.trim()) { toast.error('Ad Soyad zorunlu'); return; }
         if (!customerPhone.trim()) { toast.error('Telefon numarası zorunlu'); return; }
-        if (!customerAddress.trim()) { toast.error('Adres alanı zorunlu'); return; } // Adres Kontrolü
+        if (!customerAddress.trim()) { toast.error('Adres alanı zorunlu'); return; }
 
         setSubmitting(true);
 
-        const orderData = {
-            customerName: customerName.trim(),
-            customerPhone: customerPhone.trim(),
-            customerAddress: customerAddress.trim(), // Veriye Adres Eklendi
-            items: items.map((i) => ({
+        const phone = ADMIN_PHONE || '905555555555';
+        const total = getTotal();
+        const shortId = Math.random().toString(36).substring(2, 10).toUpperCase();
+
+        try {
+            // ── YENİ: Siparişi Veritabanına Kaydet ────────────────────────────────
+            const { data: orderData, error: orderError } = await supabase
+                .from('orders')
+                .insert({
+                    short_id: shortId,
+                    customer_name: customerName.trim(),
+                    customer_phone: customerPhone.trim(),
+                    customer_address: customerAddress.trim(),
+                    total: total,
+                })
+                .select('id')
+                .single();
+
+            if (orderError) throw orderError;
+
+            const orderItems = items.map((i) => ({
+                order_id: orderData.id,
                 title: i.title,
                 image_url: i.image_url || null,
                 category_id: i.category_id || null,
-                packagePrice: i.packagePrice,
+                package_price: i.packagePrice,
                 quantity: i.quantity,
                 variant: i.selectedVariant?.name || null,
-            })),
-            total,
-            createdAt: new Date().toISOString(),
-        };
+            }));
 
-        const encoded = encodeOrder(orderData);
-        const origin = typeof window !== 'undefined' ? window.location.origin : '';
-        const detailLink = `${origin}/siparis?d=${encoded}`;
+            const { error: itemsError } = await supabase
+                .from('order_items')
+                .insert(orderItems);
 
-        // ── YENİ: Okunabilir Düzenli Ürün Detay Metni Oluşturma ──────────────────
-        let itemDetails = '';
-        items.forEach((item) => {
-            const variantStr = item.selectedVariant ? ` (${item.selectedVariant.name})` : '';
-            const units = item.quantity * 12;
-            itemDetails += `• ${item.quantity} Pk (${units} Adet) - ${item.title}${variantStr}\n`;
-        });
+            if (itemsError) throw itemsError;
 
-        // ── YENİ: WhatsApp Şablonunu Oluşturma (Link En Alta Gizlendi) ─────────────
-        const waMessage =
-            `🛍️ *YENİ SİPARİŞ*\n\n` +
-            `👤 *Müşteri:* ${customerName.trim()}\n` +
-            `📞 *Telefon:* ${customerPhone.trim()}\n` +
-            `📍 *Adres:* ${customerAddress.trim()}\n\n` +
-            `📦 *Ürünler:*\n${itemDetails}\n` +
-            `💰 *Toplam Tutar:* ₺${total.toFixed(2)}\n\n` +
-            `🔗 *Sipariş Yönetim & Detay Linki:*\n${detailLink}`;
+            const origin = typeof window !== 'undefined' ? window.location.origin : '';
+            const detailLink = `${origin}/siparis?id=${shortId}`;
 
-        const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
+            // ── YENİ: Okunabilir Düzenli Ürün Detay Metni Oluşturma ──────────────────
+            let itemDetails = '';
+            items.forEach((item) => {
+                const variantStr = item.selectedVariant ? ` (${item.selectedVariant.name})` : '';
+                const units = item.quantity * 12;
+                itemDetails += `• ${item.quantity} Pk (${units} Adet) - ${item.title}${variantStr}\n`;
+            });
 
-        window.open(waLink, '_blank');
+            // ── YENİ: WhatsApp Şablonunu Oluşturma (Link En Alta Gizlendi) ─────────────
+            const waMessage =
+                `🛍️ *YENİ SİPARİŞ*\n\n` +
+                `👤 *Müşteri:* ${customerName.trim()}\n` +
+                `📞 *Telefon:* ${customerPhone.trim()}\n` +
+                `📍 *Adres:* ${customerAddress.trim()}\n\n` +
+                `📦 *Ürünler:*\n${itemDetails}\n` +
+                `💰 *Toplam Tutar:* ₺${total.toFixed(2)}\n\n` +
+                `🔗 *Sipariş Yönetim & Detay Linki:*\n${detailLink}`;
 
-        setSubmitting(false);
-        toast.success('Sipariş WhatsApp\'a iletildi!', { icon: '✅', duration: 3000 });
+            const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
 
-        setTimeout(() => {
-            clearCart();
-            setCustomerName('');
-            setCustomerPhone('');
-            setCustomerAddress('');
-            setStep('sepet');
-            closeCart();
-        }, 1000);
+            window.open(waLink, '_blank');
+
+            toast.success('Sipariş WhatsApp\'a iletildi!', { icon: '✅', duration: 3000 });
+
+            setTimeout(() => {
+                clearCart();
+                setCustomerName('');
+                setCustomerPhone('');
+                setCustomerAddress('');
+                setStep('sepet');
+                closeCart();
+            }, 1000);
+        } catch (error) {
+            console.error('Sipariş kaydetme hatası:', error);
+            toast.error('Sipariş oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (

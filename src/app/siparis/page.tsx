@@ -4,32 +4,8 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Package, Phone, User, CheckCircle2, ShoppingBag, MapPin } from 'lucide-react';
 
-function decodeOrder(encoded: string) {
-    try {
-        const json = decodeURIComponent(escape(atob(encoded)));
-        return JSON.parse(json);
-    } catch {
-        return null;
-    }
-}
-
-interface OrderItem {
-    title: string;
-    image_url: string | null;
-    category_id?: string | null;
-    packagePrice: number;
-    quantity: number;
-    variant: string | null;
-}
-
-interface Order {
-    customerName: string;
-    customerPhone: string;
-    customerAddress: string;
-    items: OrderItem[];
-    total: number;
-    createdAt: string;
-}
+import { supabase } from '@/lib/supabase';
+import { Order, OrderItem } from '@/types';
 
 // ─── PARAMETRELERİ OKUYAN ASIL İÇERİK BİLEŞENİ ───────────────────────────────
 function SiparisDetayIcerik() {
@@ -38,11 +14,54 @@ function SiparisDetayIcerik() {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        const d = searchParams.get('d');
-        if (!d) { setError(true); return; }
-        const decoded = decodeOrder(d);
-        if (!decoded) { setError(true); return; }
-        setOrder(decoded);
+        const id = searchParams.get('id');
+        if (!id) { setError(true); return; }
+
+        async function fetchOrder() {
+            try {
+                const { data: orderData, error: orderError } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .eq('short_id', id)
+                    .single();
+
+                if (orderError || !orderData) {
+                    setError(true);
+                    return;
+                }
+
+                const { data: itemsData, error: itemsError } = await supabase
+                    .from('order_items')
+                    .select('*')
+                    .eq('order_id', orderData.id);
+
+                if (itemsError) {
+                    setError(true);
+                    return;
+                }
+
+                setOrder({
+                    customer_name: orderData.customer_name,
+                    customer_phone: orderData.customer_phone,
+                    customer_address: orderData.customer_address,
+                    total: orderData.total,
+                    created_at: orderData.created_at,
+                    items: itemsData.map(item => ({
+                        title: item.title,
+                        image_url: item.image_url,
+                        category_id: item.category_id,
+                        package_price: item.package_price,
+                        quantity: item.quantity,
+                        variant: item.variant,
+                    })),
+                });
+            } catch (err) {
+                console.error(err);
+                setError(true);
+            }
+        }
+
+        fetchOrder();
     }, [searchParams]);
 
     if (error) {
@@ -60,8 +79,8 @@ function SiparisDetayIcerik() {
         );
     }
 
-    const totalUnits = order.items.reduce((s, i) => s + i.quantity * 12, 0);
-    const date = new Date(order.createdAt).toLocaleString('tr-TR', {
+    const totalUnits = (order.items || []).reduce((s, i) => s + i.quantity * 12, 0);
+    const date = new Date(order.created_at).toLocaleString('tr-TR', {
         day: '2-digit', month: 'long', year: 'numeric',
         hour: '2-digit', minute: '2-digit',
     });
@@ -90,7 +109,7 @@ function SiparisDetayIcerik() {
                         </div>
                         <div>
                             <p className="text-2xs text-[#9E9589] font-sans">Ad Soyad</p>
-                            <p className="font-sans font-600 text-[#161616] text-sm">{order.customerName}</p>
+                            <p className="font-sans font-600 text-[#161616] text-sm">{order.customer_name}</p>
                         </div>
                     </div>
 
@@ -100,8 +119,8 @@ function SiparisDetayIcerik() {
                         </div>
                         <div>
                             <p className="text-2xs text-[#9E9589] font-sans">Telefon</p>
-                            <a href={`tel:${order.customerPhone}`} className="font-sans font-600 text-[#161616] text-sm hover:text-[#D4A829] transition-colors">
-                                {order.customerPhone}
+                            <a href={`tel:${order.customer_phone}`} className="font-sans font-600 text-[#161616] text-sm hover:text-[#D4A829] transition-colors">
+                                {order.customer_phone}
                             </a>
                         </div>
                     </div>
@@ -113,7 +132,7 @@ function SiparisDetayIcerik() {
                         <div className="flex-1 min-w-0">
                             <p className="text-2xs text-[#9E9589] font-sans">Teslimat Adresi</p>
                             <p className="font-sans font-500 text-[#161616] text-sm leading-relaxed whitespace-pre-line break-words">
-                                {order.customerAddress || 'Belirtilmedi'}
+                                {order.customer_address || 'Belirtilmedi'}
                             </p>
                         </div>
                     </div>
@@ -128,9 +147,9 @@ function SiparisDetayIcerik() {
                 </div>
 
                 <div className="divide-y divide-[#F5F0E8]">
-                    {order.items.map((item, idx) => {
-                        const unitPrice = item.packagePrice / 12;
-                        const lineTotal = item.packagePrice * item.quantity;
+                    {(order.items || []).map((item, idx) => {
+                        const unitPrice = item.package_price / 12;
+                        const lineTotal = item.package_price * item.quantity;
                         const pageImageUrl = item.image_url || (item.category_id ? `/images/categories/${item.category_id}.jpg` : null);
 
                         return (
@@ -161,7 +180,7 @@ function SiparisDetayIcerik() {
 
                                 <div className="flex-shrink-0 text-right">
                                     <p className="font-display font-500 text-base text-[#D4A829]">₺{lineTotal.toFixed(2)}</p>
-                                    <p className="text-2xs text-[#9E9589] font-sans mt-0.5">₺{item.packagePrice.toFixed(2)}/paket</p>
+                                    <p className="text-2xs text-[#9E9589] font-sans mt-0.5">₺{item.package_price.toFixed(2)}/paket</p>
                                 </div>
                             </div>
                         );
@@ -171,20 +190,20 @@ function SiparisDetayIcerik() {
                 <div className="px-5 py-4 bg-[#FDFAF4] border-t border-[#F0EBE3] flex items-center justify-between">
                     <div>
                         <p className="font-sans font-600 text-[#161616]">Toplam</p>
-                        <p className="text-2xs text-[#9E9589] font-sans">{totalUnits} adet · {order.items.length} ürün çeşidi</p>
+                        <p className="text-2xs text-[#9E9589] font-sans">{totalUnits} adet · {(order.items || []).length} ürün çeşidi</p>
                     </div>
                     <p className="font-display text-2xl text-[#D4A829] font-500">₺{order.total.toFixed(2)}</p>
                 </div>
             </div>
 
             <a
-                href={`https://wa.me/${order.customerPhone.replace(/\D/g, '')}`}
+                href={`https://wa.me/${order.customer_phone.replace(/\D/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-[#25D366] hover:bg-[#1ebe5d] active:bg-[#17a850] text-white font-sans font-600 text-sm transition-colors shadow-sm"
             >
                 <Phone className="w-4 h-4" />
-                {order.customerPhone} — WhatsApp'ta Aç
+                {order.customer_phone} — WhatsApp'ta Aç
             </a>
 
             <p className="text-center text-2xs font-sans text-[#C0B8AE] pb-4">
