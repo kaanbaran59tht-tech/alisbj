@@ -131,65 +131,54 @@ export function ProductsGrid() {
     }, [products, activeCategory, search, discountedIds]);
 
     return (
-        <section id="products" className="py-16 md:py-24 bg-cream-50">
-            <div className="container-bijou space-y-12">
+        <section id="products" className="py-8 md:py-12 bg-cream-50">
+            <div className="container-bijou space-y-6">
 
                 {/* Başlık Bölümü */}
-                <div className="text-center space-y-4">
-                    <p className="text-xs font-sans font-semibold uppercase tracking-widest text-gold">
-                        KOLEKSİYON
-                    </p>
-                    <h2 className="font-display text-3xl md:text-4xl text-charcoal-800 tracking-tight">
-                        {categoryName ? categoryName : 'Tüm Ürünler'}
+                <div className="text-center space-y-2">
+                    <h2 className="font-display text-2xl md:text-3xl text-charcoal-800 tracking-tight">
+                        {categoryName ? categoryName : 'Koleksiyon'}
                     </h2>
-                    <div className="mx-auto w-12 h-px bg-gold" />
                     {!activeCategory && (
-                        <p className="text-warm-gray-500 font-sans text-xs sm:text-sm max-w-xl mx-auto">
+                        <p className="text-warm-gray-500 font-sans text-xs max-w-xl mx-auto px-4">
                             Toptan çelik takı koleksiyonumuz — her sipariş 12'li paket halindedir.
                         </p>
                     )}
                 </div>
 
-                {/* Kategori Filtreleri */}
-                <div className="flex flex-wrap gap-2 justify-center">
-                    <button
-                        onClick={() => setActiveCategory(null)}
-                        className={cn(
-                            'px-4 py-2 rounded-full text-xs font-sans font-semibold uppercase tracking-wide transition-colors',
-                            !activeCategory
-                                ? 'bg-gold text-charcoal-800'
-                                : 'bg-white hover:bg-cream-100 text-charcoal-700 border border-warm-gray-200'
-                        )}
-                    >
-                        Tümü
-                    </button>
-
-                    {CATEGORIES.map((cat) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
-                            className={cn(
-                                'px-4 py-2 rounded-full text-xs font-sans font-semibold uppercase tracking-wide transition-colors',
-                                activeCategory === cat.id
-                                    ? 'bg-gold text-charcoal-800'
-                                    : 'bg-white hover:bg-cream-100 text-charcoal-700 border border-warm-gray-200'
-                            )}
+                {/* Filtre ve Arama Alanı (Yan Yana) */}
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-2xl mx-auto px-4 sm:px-0">
+                    
+                    {/* Kategori Seçici (Açılır Liste) */}
+                    <div className="relative w-full sm:w-1/2">
+                        <select
+                            value={activeCategory || ''}
+                            onChange={(e) => setActiveCategory(e.target.value || null)}
+                            className="w-full appearance-none bg-white border border-warm-gray-200 text-charcoal-700 py-2.5 pl-4 pr-10 rounded-xl focus:outline-none focus:border-gold font-sans text-sm shadow-sm transition-all font-semibold"
                         >
-                            {(cat as any).icon} {cat.name}
-                        </button>
-                    ))}
-                </div>
+                            <option value="">Tüm Kategoriler</option>
+                            {CATEGORIES.map((cat) => (
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.name}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-warm-gray-500">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
 
-                {/* Arama Kutusu */}
-                <div className="max-w-md mx-auto relative px-4 sm:px-0">
-                    <Search className="absolute left-7 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-gray-400" />
-                    <input
-                        type="text"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Ürün ara…"
-                        className="input-bijou pl-10 rounded-full w-full bg-white border border-warm-gray-200 py-2 text-sm focus:outline-none focus:border-gold"
-                    />
+                    {/* Arama Kutusu */}
+                    <div className="relative w-full sm:w-1/2">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-gray-400" />
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Ürün ara…"
+                            className="input-bijou pl-9 rounded-xl w-full bg-white border border-warm-gray-200 py-2.5 text-sm focus:outline-none focus:border-gold shadow-sm"
+                        />
+                    </div>
                 </div>
 
                 {/* Durum Ekranları (Loading / Error) */}

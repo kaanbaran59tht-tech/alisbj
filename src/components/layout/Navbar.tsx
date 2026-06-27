@@ -76,7 +76,7 @@ export function Navbar() {
               aria-label="Sepet"
             >
               <ShoppingBag className="w-5 h-5 text-charcoal-700 group-hover:text-gold transition-colors" />
-              <span className="font-sans font-medium text-xs md:text-sm text-charcoal-800 tracking-wider hidden sm:block">SEPETİM</span>
+              <span className="font-sans font-semibold text-xs md:text-sm text-charcoal-800 tracking-wider">Sepetim</span>
               {itemCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gold text-charcoal-800 text-2xs font-sans font-bold rounded-full flex items-center justify-center shadow-sm border border-white">
                   {itemCount > 99 ? '99+' : itemCount}

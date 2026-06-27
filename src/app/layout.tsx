@@ -6,6 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.alluretoptantaki.com'),
+  icons: { icon: '/favicon.ico' },
   title: {
     default: "Toptan Takı ve Çelik Bijuteri | ALLURE Toptan",
     template: "%s | ALLURE Toptan Takı",
