@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sipariş Özeti | ALLURE',
+  title: 'Sipariş Özeti | ALİŞ BİJUTERİ',
   robots: {
     index: false,
     follow: false,

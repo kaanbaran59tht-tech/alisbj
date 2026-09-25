@@ -57,7 +57,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
       >
         {/* Sidebar Header */}
         <div className="px-6 py-8 border-b border-charcoal-700">
-          <a href="/" className="font-display text-3xl text-gold block mb-1">ALLURE</a>
+          <a href="/" className="font-display text-3xl text-gold block mb-1">ALİŞ BİJUTERİ</a>
           <p className="text-xs text-warm-gray-500 font-sans uppercase tracking-widest">Admin Panel</p>
         </div>
 
@@ -110,7 +110,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobil Üst Bar */}
         <div className="md:hidden flex items-center justify-between px-4 py-4 bg-charcoal-800 text-ivory-100">
-          <span className="font-display text-xl text-gold">ALLURE Admin</span>
+          <span className="font-display text-xl text-gold">ALİŞ BİJUTERİ Admin</span>
           <button onClick={() => setSidebar(!sidebarOpen)} className="btn-icon text-ivory-100">
             {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>

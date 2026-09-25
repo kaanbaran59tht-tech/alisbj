@@ -4,15 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/hooks/useAuth';
 import { Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
-
 export default function AdminLoginPage() {
   const router = useRouter();
   const { user, isLoading, error, login, checkAuth, clearError } = useAuthStore();
 
-  const [email, setEmail]       = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPwd, setShowPwd]   = useState(false);
-  const [mounted, setMounted]   = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -47,7 +46,7 @@ export default function AdminLoginPage() {
         <div className="card-luxury p-0 overflow-hidden">
           {/* Üst Başlık */}
           <div className="bg-charcoal-800 px-10 py-10 text-center space-y-2">
-            <h1 className="font-display text-4xl text-gold">BIJOU</h1>
+            <h1 className="font-display text-4xl text-gold">ALİŞ BİJUTERİ</h1>
             <p className="font-sans font-300 text-xs uppercase tracking-widest text-warm-gray-400">
               Yönetim Paneli
             </p>

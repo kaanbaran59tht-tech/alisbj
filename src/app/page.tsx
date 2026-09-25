@@ -7,8 +7,10 @@ import { WhatsAppButton } from '@/components/WhatsAppButton';
 
 export default function HomePage() {
     // Sunucu tarafında (Server-side) bir kere hesaplanır, istemciyi yormaz.
-    const rawNumber = process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER || '905452544951';
-    const whatsappUrl = `https://wa.me/${rawNumber.replace(/\D/g, '')}`;
+    const rawNumber = process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER || '905439136096';
+    const cleanNumber = rawNumber.replace(/\D/g, '');
+    const whatsappNumber = cleanNumber.startsWith('90') ? cleanNumber : (cleanNumber.startsWith('0') ? '9' + cleanNumber : '90' + cleanNumber);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
     return (
         <>
@@ -87,12 +89,12 @@ export default function HomePage() {
                                     <span className="italic text-[#D4A829]">Güvenilir Toptan Ticaret</span>
                                 </h2>
                                 <div className="font-sans text-base text-[#555555] leading-relaxed space-y-6">
-                                    <p>İnternet alışverişlerinde güven duymanın ne kadar önemli olduğunu çok iyi biliyoruz. Bu yüzden size sadece bir web sitesi olarak değil, <strong>Klas İş Merkezi Rüstempaşa Mah, Sabuncuhanı Sok., No:24A, Fatih, İstanbul'daki fiziki toptan satış merkezimizde</strong> ve yılların getirdiği sektörel tecrübemizle hizmet veriyoruz.</p>
+                                    <p>İnternet alışverişlerinde güven duymanın ne kadar önemli olduğunu çok iyi biliyoruz. Bu yüzden size sadece bir web sitesi olarak değil, <strong>Özdiker Bağdat Pasajı K-1 No:63 - Eyyübiye/ŞANLIURFA fiziki toptan satış merkezimizde</strong> ve yılların getirdiği sektörel tecrübemizle hizmet veriyoruz.</p>
                                     <p>Biz, sadece son tüketiciye ulaşan bir marka değiliz; Türkiye’nin dört bir yanındaki <strong>çeşitli mağazalara ve işletmelere de toptan ürün tedariği sağlayan, üretici bir firmayız.</strong></p>
                                     <div className="pt-2">
                                         <ul className="space-y-3 list-none pl-0">
                                             <li className="bg-white shadow-sm p-4 rounded-xl border border-[#E4E0D8]">
-                                                <strong className="text-[#161616]">📍 Elden Teslim Alabilirsiniz:</strong> Klas İş Merkezi Rüstempaşa Mah, Sabuncuhanı Sok., No:24A, Fatih, İstanbul adresindeki üretim atölyemizi ziyaret edebilir, siparişinizi çayımızı içerken kendi ellerinizle teslim alabilirsiniz.
+                                                <strong className="text-[#161616]">📍 Elden Teslim Alabilirsiniz:</strong> Özdiker Bağdat pasajı K-1 No:63 - Eyyübiye/ŞANLIURFA adresindeki satış mağazamızı ziyaret edebilir, siparişinizi çayımızı içerken kendi ellerinizle teslim alabilirsiniz.
                                             </li>
                                             <li className="bg-white shadow-sm p-4 rounded-xl border border-[#E4E0D8]">
                                                 <strong className="text-[#161616]">📦 Güvenli Kargo İle Kapınızda:</strong> Ürünlerimizi özenle paketliyor, Türkiye'nin her yerine güvenli ve hızlı kargo seçenekleriyle ulaştırıyoruz.
@@ -106,7 +108,7 @@ export default function HomePage() {
                                     <div className="relative group overflow-hidden rounded-lg aspect-[3/4] w-full">
                                         <Image
                                             src="/arka.jpg"
-                                            alt="Allure Toptan Takı - Üretim ve Tedarik"
+                                            alt="Aliş Bijuteri - Toptan Takı ve Çelik Bijuteri"
                                             fill
                                             sizes="(max-w-1024px) 100vw, 40vw"
                                             className="object-cover transition-transform duration-700 group-hover:scale-105"

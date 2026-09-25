@@ -268,7 +268,7 @@ export default function AdminDashboardPage() {
                 description: form.description.trim() || null,
                 price: parseFloat(form.price),
                 image_url: finalImageUrl,
-                category_id: form.category,
+                category_id: form.category || null,
                 is_active: true,
                 created_by: user?.id,
             };

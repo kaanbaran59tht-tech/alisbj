@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.alluretoptantaki.com'),
   icons: { icon: '/favicon.ico' },
   title: {
-    default: "Toptan Takı ve Çelik Bijuteri | ALLURE Toptan",
-    template: "%s | ALLURE Toptan Takı",
+    default: "Toptan Takı ve Çelik Bijuteri | ALİŞ BİJUTERİ",
+    template: "%s | ALİŞ BİJUTERİ",
   },
   description: "Türkiye'nin en güvenilir toptan takı ve çelik bijuteri tedarikçisi. İndirimli fiyatlar, toptan çelik takı, kolye ve yüzük koleksiyonları.",
-  keywords: ["toptan takı", "toptan çelik takı", "bijuteri toptan", "allure toptan", "toptan kolye", "toptan bileklik", "istanbul toptan takı", "toptan takı firmaları"],
-  authors: [{ name: "Allure Toptan Takı" }],
-  creator: "Allure Toptan Takı",
+  keywords: ["toptan takı", "toptan çelik takı", "bijuteri toptan", "aliş bijuteri", "toptan kolye", "toptan bileklik", "şanlıurfa toptan takı", "toptan takı firmaları"],
+  authors: [{ name: "ALİŞ BİJUTERİ" }],
+  creator: "ALİŞ BİJUTERİ",
   alternates: {
     canonical: '/',
   },
@@ -22,21 +22,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "tr_TR",
     url: "https://www.alluretoptantaki.com",
-    siteName: "ALLURE Toptan Çelik Takı",
-    title: "Toptan Takı ve Çelik Bijuteri | ALLURE",
+    siteName: "ALİŞ BİJUTERİ",
+    title: "Toptan Takı ve Çelik Bijuteri | ALİŞ BİJUTERİ",
     description: "Zarafetin yeni adı. Uygun fiyatlarla toptan takı ve çelik bijuteri tedariği.",
     images: [
       {
         url: "/arka.jpg",
         width: 1200,
         height: 630,
-        alt: "Allure Toptan Takı Koleksiyonu",
+        alt: "ALİŞ BİJUTERİ Koleksiyonu",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Toptan Takı ve Çelik Bijuteri | ALLURE",
+    title: "Toptan Takı ve Çelik Bijuteri | ALİŞ BİJUTERİ",
     description: "Zarafetin yeni adı. Uygun fiyatlarla toptan takı tedariği.",
     images: ["/arka.jpg"],
   },
@@ -61,16 +61,16 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WholesaleStore",
-    "name": "ALLURE Toptan Takı",
+    "name": "ALİŞ BİJUTERİ",
     "image": "https://www.alluretoptantaki.com/arka.jpg",
     "description": "Premium kalitede toptan çelik takı, bijuteri ve aksesuar toptancısı. Türkiye'nin her yerine güvenli gönderim.",
     "url": "https://www.alluretoptantaki.com",
-    "telephone": "+905452544951",
+    "telephone": "+905439136096",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Klas İş Merkezi Rüstempaşa Mah, Sabuncuhanı Sok., No:24A",
-      "addressLocality": "Fatih",
-      "addressRegion": "İstanbul",
+      "streetAddress": "Özdiker Bağdat Pasajı K-1 No:63",
+      "addressLocality": "Eyyübiye",
+      "addressRegion": "Şanlıurfa",
       "addressCountry": "TR"
     }
   };

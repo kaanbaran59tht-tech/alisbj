@@ -46,7 +46,7 @@ export function Navbar() {
               href="/"
               className="font-display text-2xl md:text-3xl text-charcoal-800 hover:text-gold transition-colors"
             >
-              ALLURE
+              ALİŞ BİJUTERİ
             </a>
 
             {/* Desktop Navigation */}

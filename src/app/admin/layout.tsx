@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import AdminLayoutClient from './AdminLayoutClient';
 
 export const metadata: Metadata = {
-  title: 'Admin Paneli | ALLURE',
+  title: 'Admin Paneli | ALİŞ BİJUTERİ',
   robots: {
     index: false,
     follow: false,

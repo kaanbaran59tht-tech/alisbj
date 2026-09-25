@@ -4,20 +4,23 @@ import { Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const phoneNumber = process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER || '905xxxxxxxxx';
+  const rawPhone = process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER || '905439136096';
+  const cleanPhone = rawPhone.replace(/\D/g, '');
+  const waPhone = cleanPhone.startsWith('90') ? cleanPhone : (cleanPhone.startsWith('0') ? '9' + cleanPhone : '90' + cleanPhone);
+  const displayPhone = '0543 913 60 96';
 
   return (
     <footer id="contact" className="relative bg-charcoal-800 text-ivory-300 overflow-hidden pt-20 pb-6 border-t-[6px] border-gold">
       {/* Background Accent */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
-      
+
       {/* Main Footer */}
       <div className="container-bijou relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 mb-16 items-center">
-          
+
           {/* Brand & Socials */}
           <div className="space-y-6 md:col-span-1">
-            <h3 className="font-display text-4xl text-gold tracking-wider mb-2">ALLURE</h3>
+            <h3 className="font-display text-4xl text-gold tracking-wider mb-2">ALİŞ BİJUTERİ</h3>
             <p className="font-sans font-light text-sm text-warm-gray-300 leading-relaxed max-w-xs">
               Premium kalitede toptan takı ve bijuteri koleksiyonları. En trend tasarımlar, rekabetçi fiyatlar ve güvenilir hizmet anlayışı.
             </p>
@@ -54,7 +57,7 @@ export function Footer() {
                 <div className="flex flex-col pt-1">
                   <span className="font-sans font-semibold text-base text-ivory-100 mb-2 tracking-wide">Mağaza & Atölye Adresimiz</span>
                   <span className="font-sans font-light text-base text-warm-gray-300 leading-relaxed">
-                    Klas İş Merkezi Rüstempaşa Mah,<br/>Sabuncuhanı Sok., No:24A,<br/>Fatih, İstanbul
+                    Özdiker Bağdat Pasajı K-1 No:63,<br />Eyyübiye / ŞANLIURFA
                   </span>
                 </div>
               </li>
@@ -65,12 +68,12 @@ export function Footer() {
                 <div className="flex flex-col pt-1">
                   <span className="font-sans font-semibold text-base text-ivory-100 mb-2 tracking-wide">Telefon / WhatsApp</span>
                   <a
-                    href={`https://wa.me/${phoneNumber.replace(/\D/g, '')}`}
+                    href={`https://wa.me/${waPhone}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-sans font-light text-lg text-warm-gray-300 hover:text-gold transition-colors"
                   >
-                    {phoneNumber}
+                    {displayPhone}
                   </a>
                 </div>
               </li>
@@ -95,7 +98,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-charcoal-700/50 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="font-sans font-light text-sm text-warm-gray-500 tracking-wide">
-            © {currentYear} <span className="text-ivory-300 font-medium">ALLURE</span> Toptan Takı. Tüm hakları saklıdır. DESIGN BY KAAN.
+            © {currentYear} <span className="text-ivory-300 font-medium">ALİŞ BİJUTERİ - Design by KaanG</span>. Tüm hakları saklıdır.
           </p>
           <p className="font-sans font-light text-sm text-warm-gray-500 tracking-wider uppercase">
             Premium Toptan Takı ve Bijuteri

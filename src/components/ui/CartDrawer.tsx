@@ -67,7 +67,7 @@ export function CartDrawer() {
 
         setSubmitting(true);
 
-        const phone = ADMIN_PHONE || '905555555555';
+        const phone = ADMIN_PHONE || '905439136096';
         const total = getTotal();
         const shortId = Math.random().toString(36).substring(2, 10).toUpperCase();
 
