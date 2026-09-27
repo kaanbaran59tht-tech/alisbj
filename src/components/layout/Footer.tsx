@@ -24,23 +24,17 @@ export function Footer() {
             <p className="font-sans font-light text-sm text-warm-gray-300 leading-relaxed max-w-xs">
               Premium kalitede toptan takı ve bijuteri koleksiyonları. En trend tasarımlar, rekabetçi fiyatlar ve güvenilir hizmet anlayışı.
             </p>
-            <div className="flex items-center gap-4 pt-4">
+            <div className="flex items-center gap-5 pt-5">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/alissbijuteri/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-charcoal-700/50 border border-charcoal-600 flex items-center justify-center text-warm-gray-300 hover:bg-gold hover:text-charcoal-900 hover:border-gold transition-all duration-300 shadow-sm"
+                className="w-10 h-10 rounded-full bg-charcoal-700/50 border border-charcoal-600 flex items-center justify-center text-warm-gray-400 hover:bg-gold hover:text-charcoal-900 hover:border-gold transition-all duration-300 shadow-sm"
                 aria-label="Instagram"
               >
                 <Instagram className="w-4 h-4" />
               </a>
-              <a
-                href="mailto:info@allure.com"
-                className="w-10 h-10 rounded-full bg-charcoal-700/50 border border-charcoal-600 flex items-center justify-center text-warm-gray-300 hover:bg-gold hover:text-charcoal-900 hover:border-gold transition-all duration-300 shadow-sm"
-                aria-label="Email"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+
             </div>
           </div>
 

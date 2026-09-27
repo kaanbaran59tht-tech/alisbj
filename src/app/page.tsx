@@ -48,8 +48,10 @@ export default function HomePage() {
                         </p>
 
                         <h1 className="font-display text-5xl md:text-7xl text-white leading-tight animate-fade-up">
-                            Toptan Takıda
-                            <span className="block text-[#D4A829]">Zarafetin Yeni Adı</span>
+                            Takı İçin Doğru Seçim <br />
+
+
+                            <span className="block text-[#D4A829]">Aliş Bijuteri</span>
                         </h1>
 
                         <p className="font-display italic text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto animate-fade-up">
