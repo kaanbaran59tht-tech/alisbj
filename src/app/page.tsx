@@ -29,7 +29,7 @@ export default function HomePage() {
                         preload="auto"
                         className="absolute inset-0 w-full h-full object-cover opacity-30 z-0 pointer-events-none"
                     >
-                        <source src="/kadın2.mp4" type="video/mp4" />
+                        <source src="/kadın4.mp4" type="video/mp4" />
                     </video>
 
                     <div

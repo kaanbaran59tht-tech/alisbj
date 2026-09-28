@@ -11,9 +11,9 @@ export interface ProductVariant {
 }
 
 import { createElement } from 'react';
-import { 
-    Link2, Heart, Sparkles, Circle, Waves, 
-    Sun, Gem, Watch, Crown, Smile, Moon, User 
+import {
+    Link2, Heart, Sparkles, Circle, Waves,
+    Sun, Gem, Watch, Crown, Smile, Moon, User
 } from 'lucide-react';
 
 const iconClass = "w-4 h-4 inline-block";
@@ -28,7 +28,7 @@ export const CATEGORIES = [
     { id: 'ee555555-5555-5555-5555-555555555555', name: 'HALHAL', icon: createElement(Waves, { className: iconClass }) },
     { id: 'ff666666-6666-6666-6666-666666666666', name: 'CHARM', icon: createElement(Sun, { className: iconClass }) },
     { id: '77777777-7777-7777-7777-777777777777', name: 'HIZMA & PIERCING', icon: createElement(Gem, { className: iconClass }) },
-    { id: '88888888-8888-8888-8888-888888888888', name: 'SAAT', icon: createElement(Watch, { className: iconClass }) },
+    { id: '88888888-8888-8888-8888-888888888888', name: 'TOKA', icon: createElement(Moon, { className: iconClass }) },
     { id: '99999999-9999-9999-9999-999999999999', name: 'XUPİNG', icon: createElement(Crown, { className: iconClass }) },
     { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', name: 'ÇOCUKLARA ÖZEL', icon: createElement(Smile, { className: iconClass }) },
     { id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', name: 'ÇELİK KOLYE UCU', icon: createElement(Moon, { className: iconClass }) },
@@ -61,11 +61,11 @@ export interface Product {
     created_by?: string | null;
     is_active?: boolean;
     category_id?: string | null;
-    
+
     // UI/Frontend özel (DB'de olmayan)
-    slug?: string; 
-    variants?: ProductVariant[]; 
-    category_name?: string; 
+    slug?: string;
+    variants?: ProductVariant[];
+    category_name?: string;
 }
 
 // ─── Sepet Ürünü (Paket Sistemi) ──────────────────────────────────────
@@ -122,7 +122,7 @@ export interface Order {
     customer_address?: string | null;
     total: number;
     created_at: string;
-    
+
     // UI/Frontend özel alanlar
     items?: OrderItem[];
     status?: OrderStatus;
