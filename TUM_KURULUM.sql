@@ -28,13 +28,15 @@ INSERT INTO public.categories (id, name, slug, display_order, icon) VALUES
   ('cc333333-3333-3333-3333-333333333333', 'KÜPE', 'kupe', 3, '💎'),
   ('dd444444-4444-4444-4444-444444444444', 'YÜZÜK', 'yuzuk', 4, '💍'),
   ('ee555555-5555-5555-5555-555555555555', 'HALHAL', 'halhal', 5, '📍'),
-  ('ff666666-6666-6666-6666-666666666666', 'CHARM', 'charm', 6, '✨'),
-  ('77777777-7777-7777-7777-777777777777', 'HIZMA & PIERCING', 'hizma-piercing', 7, '🔧'),
-  ('88888888-8888-8888-8888-888888888888', 'SAAT', 'saat', 8, '⏰'),
-  ('99999999-9999-9999-9999-999999999999', 'XUPİNG', 'xuping', 9, '👑'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'ÇOCUKLARA ÖZEL', 'cocuklara-ozel', 10, '👧'),
-  ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'ÇELİK KOLYE UCU', 'celik-kolye-ucu', 11, '🔗'),
-  ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'ERKEK ÜRÜNLERİ', 'erkek-urunleri', 12, '👨')
+  ('77777777-7777-7777-7777-777777777777', 'HIZMA & PIERCING', 'hizma-piercing', 6, '🔧'),
+  ('88888888-8888-8888-8888-888888888888', 'TOKA', 'toka', 7, '🎀'),
+  ('11111111-2222-3333-4444-000000000001', 'SET TOKA', 'set-toka', 8, '🎀'),
+  ('11111111-2222-3333-4444-000000000002', 'PELUŞ MANDAL', 'pelus-mandal', 9, '🧸'),
+  ('11111111-2222-3333-4444-000000000003', 'MANDAL-TIRMIK MODELLERİ', 'mandal-tirmik-modelleri', 10, '✂️'),
+  ('11111111-2222-3333-4444-000000000004', 'KUTULU TOKA', 'kutulu-toka', 11, '📦'),
+  ('11111111-2222-3333-4444-000000000005', 'ANAHTARLIK', 'anahtarlik', 12, '🔑'),
+  ('11111111-2222-3333-4444-000000000006', 'SAÇ BANDI', 'sac-bandi', 13, '🎗️'),
+  ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'ERKEK ÜRÜNLERİ', 'erkek-urunleri', 14, '👨')
 ON CONFLICT (id) DO UPDATE SET 
   name = EXCLUDED.name,
   slug = EXCLUDED.slug,

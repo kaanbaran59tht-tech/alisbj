@@ -13,7 +13,7 @@ export interface ProductVariant {
 import { createElement } from 'react';
 import {
     Link2, Heart, Sparkles, Circle, Waves,
-    Sun, Gem, Watch, Crown, Smile, Moon, User
+    Gem, Moon, User, Scissors, Box, Key, Ribbon
 } from 'lucide-react';
 
 const iconClass = "w-4 h-4 inline-block";
@@ -26,12 +26,14 @@ export const CATEGORIES = [
     { id: 'cc333333-3333-3333-3333-333333333333', name: 'KÜPE', icon: createElement(Sparkles, { className: iconClass }) },
     { id: 'dd444444-4444-4444-4444-444444444444', name: 'YÜZÜK', icon: createElement(Circle, { className: iconClass }) },
     { id: 'ee555555-5555-5555-5555-555555555555', name: 'HALHAL', icon: createElement(Waves, { className: iconClass }) },
-    { id: 'ff666666-6666-6666-6666-666666666666', name: 'CHARM', icon: createElement(Sun, { className: iconClass }) },
     { id: '77777777-7777-7777-7777-777777777777', name: 'HIZMA & PIERCING', icon: createElement(Gem, { className: iconClass }) },
     { id: '88888888-8888-8888-8888-888888888888', name: 'TOKA', icon: createElement(Moon, { className: iconClass }) },
-    { id: '99999999-9999-9999-9999-999999999999', name: 'XUPİNG', icon: createElement(Crown, { className: iconClass }) },
-    { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', name: 'ÇOCUKLARA ÖZEL', icon: createElement(Smile, { className: iconClass }) },
-    { id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', name: 'ÇELİK KOLYE UCU', icon: createElement(Moon, { className: iconClass }) },
+    { id: '11111111-2222-3333-4444-000000000001', name: 'SET TOKA', icon: createElement(Moon, { className: iconClass }) },
+    { id: '11111111-2222-3333-4444-000000000002', name: 'PELUŞ MANDAL', icon: createElement(Scissors, { className: iconClass }) },
+    { id: '11111111-2222-3333-4444-000000000003', name: 'MANDAL-TIRMIK MODELLERİ', icon: createElement(Scissors, { className: iconClass }) },
+    { id: '11111111-2222-3333-4444-000000000004', name: 'KUTULU TOKA', icon: createElement(Box, { className: iconClass }) },
+    { id: '11111111-2222-3333-4444-000000000005', name: 'ANAHTARLIK', icon: createElement(Key, { className: iconClass }) },
+    { id: '11111111-2222-3333-4444-000000000006', name: 'SAÇ BANDI', icon: createElement(Ribbon, { className: iconClass }) },
     { id: 'cccccccc-cccc-cccc-cccc-cccccccccccc', name: 'ERKEK ÜRÜNLERİ', icon: createElement(User, { className: iconClass }) },
 ] as const;
 

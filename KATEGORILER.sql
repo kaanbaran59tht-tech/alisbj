@@ -33,13 +33,15 @@ INSERT INTO public.categories (name, slug, display_order, icon) VALUES
 ('KÜPE', 'kupe', 3, '💎'),
 ('YÜZÜK', 'yuzuk', 4, '💍'),
 ('HALHAL', 'halhal', 5, '📍'),
-('CHARM', 'charm', 6, '✨'),
-('HIZMA & PIERCING', 'hizma-piercing', 7, '🔧'),
-('SAAT', 'saat', 8, '⏰'),
-('XUPİNG', 'xuping', 9, '👑'),
-('ÇOCUKLARA ÖZEL', 'cocuklara-ozel', 10, '👧'),
-('ÇELİK KOLYE UCU', 'celik-kolye-ucu', 11, '🔗'),
-('ERKEK ÜRÜNLERİ', 'erkek-urunleri', 12, '👨');
+('HIZMA & PIERCING', 'hizma-piercing', 6, '🔧'),
+('TOKA', 'toka', 7, '🎀'),
+('SET TOKA', 'set-toka', 8, '🎀'),
+('PELUŞ MANDAL', 'pelus-mandal', 9, '🧸'),
+('MANDAL-TIRMIK MODELLERİ', 'mandal-tirmik-modelleri', 10, '✂️'),
+('KUTULU TOKA', 'kutulu-toka', 11, '📦'),
+('ANAHTARLIK', 'anahtarlik', 12, '🔑'),
+('SAÇ BANDI', 'sac-bandi', 13, '🎗️'),
+('ERKEK ÜRÜNLERİ', 'erkek-urunleri', 14, '👨');
 
 -- ─── 4. Products Tablosuna category_id Ekle ─────────────────────────────────
 ALTER TABLE public.products 
