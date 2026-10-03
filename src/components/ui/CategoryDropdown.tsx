@@ -13,8 +13,12 @@ interface CategoryDropdownProps {
 
 export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const { activeCategory: selectedCategory, setActiveCategory: setSelectedCategory } = useCategoryStore();
+    const { activeCategory: selectedCategory, setActiveCategory: setSelectedCategory, categories, loadCategories } = useCategoryStore();
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        loadCategories();
+    }, [loadCategories]);
 
     // Dış klik kapatma
     useEffect(() => {
@@ -44,9 +48,12 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
         }
     };
 
-    const selectedCategoryName =
+    const selectedCategoryItem =
         selectedCategory &&
-        CATEGORIES.find((c) => c.id === selectedCategory)?.name;
+        (categories.find((c) => c.id === selectedCategory) || CATEGORIES.find((c) => c.id === selectedCategory));
+
+    const selectedCategoryName = selectedCategoryItem?.name;
+    const selectedCategoryIcon = selectedCategoryItem?.icon;
 
     return (
         <div className="relative" ref={dropdownRef}>
@@ -64,9 +71,9 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
             >
                 {selectedCategoryName ? (
                     <>
-                        <span>
-                            {CATEGORIES.find((c) => c.id === selectedCategory)?.icon}{' '}
-                            {selectedCategoryName}
+                        <span className="flex items-center gap-1.5">
+                            <span>{selectedCategoryIcon}</span>
+                            <span>{selectedCategoryName}</span>
                         </span>
                         <X className="w-4 h-4" />
                     </>
@@ -84,24 +91,24 @@ export function CategoryDropdown({ onSelectCategory }: CategoryDropdownProps) {
                     className={cn(
                         'absolute top-full left-0 mt-2 w-80 bg-ivory-300 rounded-lg',
                         'border border-warm-gray-200 shadow-lg z-50',
-                        'animate-fade-up'
+                        'animate-fade-up max-h-[70vh] overflow-y-auto'
                     )}
                 >
                     <div className="grid grid-cols-2 gap-2 p-3">
-                        {CATEGORIES.map((category) => (
+                        {categories.map((category) => (
                             <button
                                 key={category.id}
                                 onClick={() => handleSelect(category.id)}
                                 className={cn(
                                     'px-3 py-2 rounded-lg text-left text-sm',
-                                    'font-sans font-medium transition-colors duration-200',
+                                    'font-sans font-medium transition-colors duration-200 flex items-center gap-1.5',
                                     selectedCategory === category.id
                                         ? 'bg-gold text-charcoal-800'
                                         : 'hover:bg-cream-100 text-charcoal-700'
                                 )}
                             >
-                                <span className="mr-2">{category.icon}</span>
-                                {category.name}
+                                <span className="flex-shrink-0">{category.icon}</span>
+                                <span className="truncate">{category.name}</span>
                             </button>
                         ))}
                     </div>

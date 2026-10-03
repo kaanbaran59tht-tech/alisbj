@@ -50,7 +50,7 @@ export function ProductsGrid() {
     const [products, setProducts] = useState<DBProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { activeCategory, setActiveCategory } = useCategoryStore();
+    const { activeCategory, setActiveCategory, categories, loadCategories } = useCategoryStore();
     const [search, setSearch] = useState('');
     const [visibleCount, setVisibleCount] = useState(50);
 
@@ -58,6 +58,11 @@ export function ProductsGrid() {
     useEffect(() => {
         setVisibleCount(50);
     }, [activeCategory, search]);
+
+    // Kategorileri yükle
+    useEffect(() => {
+        loadCategories();
+    }, [loadCategories]);
 
     // ─── Ürünleri Yükle ────────────────────────────────────────────────────────
     const loadProducts = useCallback(async () => {
@@ -95,8 +100,8 @@ export function ProductsGrid() {
     // ─── Kategori ismi ─────────────────────────────────────────────────────────
     const categoryName = useMemo(() => {
         if (!activeCategory) return null;
-        return CATEGORIES.find((c) => c.id === activeCategory)?.name || null;
-    }, [activeCategory]);
+        return categories.find((c) => c.id === activeCategory)?.name || CATEGORIES.find((c) => c.id === activeCategory)?.name || null;
+    }, [activeCategory, categories]);
 
     // ─── Performanslı Filtreleme ve Sıralama ────────────────────────────────────
     const filteredProducts = useMemo(() => {
@@ -157,7 +162,7 @@ export function ProductsGrid() {
                             className="w-full appearance-none bg-white border border-warm-gray-200 text-charcoal-700 py-2.5 pl-4 pr-10 rounded-xl focus:outline-none focus:border-gold font-sans text-sm shadow-sm transition-all font-semibold"
                         >
                             <option value="">Tüm Kategoriler</option>
-                            {CATEGORIES.map((cat) => (
+                            {categories.map((cat) => (
                                 <option key={cat.id} value={cat.id}>
                                     {cat.name}
                                 </option>

@@ -3,11 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/hooks/useAuth';
-import { LayoutDashboard, Package, Menu, X, LogOut, Loader2 } from 'lucide-react';
+import { LayoutDashboard, FolderPlus, Package, Menu, X, LogOut, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { label: 'Kategori Yönetimi', href: '/admin/kategoriler', icon: FolderPlus },
 ];
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {

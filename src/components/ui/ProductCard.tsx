@@ -5,6 +5,7 @@ import { useCartStore } from '@/hooks/useCart';
 import { Plus, Minus, ShoppingBag, Package, X, ChevronRight, ChevronLeft, Check, Timer, Flame } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { CATEGORIES } from '@/types/index';
+import { useCategoryStore } from '@/hooks/useCategoryStore';
 import { cn } from '@/lib/utils';
 
 // ─── Renk Seçenekleri ──────────────────────────────────────────────────────────
@@ -107,10 +108,10 @@ function ProductModal({
     const apTotalPrice = useMemo(() => finalPackagePrice * packages, [finalPackagePrice, packages]);
     const apTotalUnits = useMemo(() => packages * 12, [packages]);
     const timeLeft = useCountdown(activeProduct.discountEndTime);
-
+    const { categories } = useCategoryStore();
     const apCategoryLabel = useMemo(() => {
-        return CATEGORIES.find((c) => c.id === activeProduct.category_id);
-    }, [activeProduct.category_id]);
+        return categories.find((c) => c.id === activeProduct.category_id) || CATEGORIES.find((c) => c.id === activeProduct.category_id);
+    }, [activeProduct.category_id, categories]);
 
     const apSimilar = useMemo(() => {
         return allProducts

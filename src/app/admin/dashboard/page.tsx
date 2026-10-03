@@ -4,10 +4,11 @@ import { useEffect, useState, useRef } from 'react';
 import { useAuthStore } from '@/hooks/useAuth';
 import { createClient } from '@/lib/supabase';
 import { CATEGORIES } from '@/types/index';
+import { useCategoryStore } from '@/hooks/useCategoryStore';
 import {
     Plus, Trash2, Loader2,
     Package, Box, ImageIcon, RefreshCw,
-    Link2, Upload, X, Edit3
+    Link2, Upload, X, Edit3, FolderPlus
 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { cn } from '@/lib/utils';
@@ -32,6 +33,7 @@ const EMPTY_FORM = {
 
 export default function AdminDashboardPage() {
     const { user } = useAuthStore();
+    const { categories, loadCategories } = useCategoryStore();
     const [products, setProducts] = useState<DBProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -68,7 +70,10 @@ export default function AdminDashboardPage() {
         }
     };
 
-    useEffect(() => { loadProducts(); }, []);
+    useEffect(() => {
+        loadProducts();
+        loadCategories();
+    }, []);
 
     // ─── Form Alan Değişimi ─────────────────────────────────────────────────────
     const handleChange = (
@@ -351,10 +356,10 @@ export default function AdminDashboardPage() {
     };
 
     const getCategoryName = (id: string) =>
-        CATEGORIES.find((c) => c.id === id)?.name || id;
+        categories.find((c) => c.id === id)?.name || CATEGORIES.find((c) => c.id === id)?.name || id;
 
     const getCategoryIcon = (id: string) =>
-        (CATEGORIES.find((c) => c.id === id) as any)?.icon || '🏷️';
+        (categories.find((c) => c.id === id) as any)?.icon || (CATEGORIES.find((c) => c.id === id) as any)?.icon || '🏷️';
 
     return (
         <>
@@ -362,22 +367,34 @@ export default function AdminDashboardPage() {
 
             <div className="max-w-7xl mx-auto space-y-10">
                 {/* Başlık */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <h1 className="font-display text-4xl text-charcoal-800">Ürün Yönetimi</h1>
                         <p className="text-warm-gray-500 font-sans mt-1">
                             {products.length} ürün • 12'li paket sistemi
                         </p>
                     </div>
-                    <button
-                        type="button"
-                        onClick={loadProducts}
-                        disabled={loading}
-                        className="btn-outline flex items-center gap-2"
-                    >
-                        <RefreshCw className={cn('w-4 h-4', loading && 'animate-spin')} />
-                        Yenile
-                    </button>
+                    <div className="flex items-center gap-3">
+                        <a
+                            href="/admin/kategoriler"
+                            className="btn-gold flex items-center gap-2 text-xs py-2.5 px-4"
+                        >
+                            <FolderPlus className="w-4 h-4" />
+                            Kategori Ekle / Yönet
+                        </a>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                loadProducts();
+                                loadCategories();
+                            }}
+                            disabled={loading}
+                            className="btn-outline flex items-center gap-2 text-xs py-2.5 px-4"
+                        >
+                            <RefreshCw className={cn('w-4 h-4', loading && 'animate-spin')} />
+                            Yenile
+                        </button>
+                    </div>
                 </div>
 
                 {/* Form */}
@@ -434,7 +451,16 @@ export default function AdminDashboardPage() {
                         </div>
 
                         <div>
-                            <label className="label-bijou">Kategori *</label>
+                            <div className="flex items-center justify-between mb-1.5">
+                                <label className="label-bijou mb-0">Kategori *</label>
+                                <a
+                                    href="/admin/kategoriler"
+                                    className="text-2xs text-gold hover:underline flex items-center gap-1 font-sans font-semibold"
+                                >
+                                    <FolderPlus className="w-3 h-3" />
+                                    Yeni Kategori Ekle
+                                </a>
+                            </div>
                             <select
                                 name="category"
                                 value={form.category}
@@ -444,7 +470,7 @@ export default function AdminDashboardPage() {
                                 disabled={submitting}
                             >
                                 <option value="">Kategori Seçin</option>
-                                {CATEGORIES.filter(c => !(c as any).virtual).map((cat) => (
+                                {categories.filter(c => !c.virtual).map((cat) => (
                                     <option key={cat.id} value={cat.id}>
                                         {cat.name}
                                     </option>

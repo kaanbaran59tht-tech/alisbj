@@ -12,11 +12,13 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { openCart, getTotalUnits } = useCartStore();
+  const { categories, loadCategories, setActiveCategory } = useCategoryStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    loadCategories();
+  }, [loadCategories]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -113,11 +115,11 @@ export function Navbar() {
             Kategoriler
           </p>
           <div className="grid grid-cols-2 gap-4 mb-6">
-            {CATEGORIES.map((category) => (
+            {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => {
-                  useCategoryStore.getState().setActiveCategory(category.id);
+                  setActiveCategory(category.id);
                   setIsMobileMenuOpen(false);
                   const productsSection = document.getElementById('products');
                   if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
@@ -125,7 +127,7 @@ export function Navbar() {
                 className="flex items-center gap-2 text-left font-sans text-sm font-medium text-charcoal-700 hover:text-gold"
               >
                 <span>{category.icon}</span>
-                {category.name}
+                <span className="truncate">{category.name}</span>
               </button>
             ))}
           </div>
